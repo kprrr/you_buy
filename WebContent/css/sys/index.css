@@ -1,0 +1,44 @@
+.menuItem {
+    margin-top: 1px;
+    cursor: pointer;
+    border: 1px solid #DDE8FB;
+}
+.menuItem img{
+	width: 40px;
+	height: 40px;	
+}
+.menuItem img{
+    margin-left: 10px;
+}
+.menuItem span{
+    margin-left: 10px;
+}
+
+.menuItem:hover {
+    border: 1px dashed #B3CDFF;
+    background-color: #b7d2ff;
+}
+
+.nav-item img, .menuItem img {
+    vertical-align: middle;
+}
+
+.top-span {
+    color: white;
+    position: absolute;
+    right: 1px;
+    top: 55px;
+}
+
+.top-span span {
+    margin-right: 5px;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.top-span span:hover {
+    margin-right: 5px;
+    display: inline-block;
+
+}
+

@@ -1,0 +1,37 @@
+.panl {
+    padding: 10px;
+}
+table{
+    border-radius: 5px;
+}
+
+.menus {
+    margin-bottom: 10px;
+}
+
+/*确定按钮样式*/
+.save-div {
+    bottom: 5px;
+    position: relative; /*相对布局*/
+    text-align: right;
+}
+
+.span {
+    color: red;
+    margin-left: 8px;
+}
+
+.table_bg {
+    border-radius: 5px;
+    background-color: #D3D3D3;
+}
+
+.table_bg td {
+    background: #eaf2ff;
+    text-align: right;
+}
+
+.table_bg th {
+    background: white;
+    text-align: left;
+}

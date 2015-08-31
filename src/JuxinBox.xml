@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<juxinbox>
+	<requestTime>10</requestTime>
+	<all>notRequestNames</all>
+	<oldRequet>
+		<name>/test/upload/</name>
+	</oldRequet>
+	<notRequestNames>
+		<name>test-get</name>
+	</notRequestNames>
+	<requestTimeNames>
+		<name>test-get</name>
+	</requestTimeNames>
+	<requestNotTimeNames>
+		<name>test-get</name>
+	</requestNotTimeNames>
+</juxinbox>

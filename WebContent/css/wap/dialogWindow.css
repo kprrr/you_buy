@@ -1,0 +1,128 @@
+/*wap端弹窗*/
+
+a {
+    text-decoration: none;
+    color: #000000;
+}
+
+.window_bg {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999999;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.window_bg .pagediv {
+    width: 300px;
+    height: 300px;
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -150px;
+    background-color: #ffffff;
+    border-radius: 5px 5px 0 0;;
+    z-index: 99;
+    overflow: hidden;
+
+    -webkit-animation-name: 'wobble'; /*动画属性名，也就是我们前面keyframes定义的动画名*/
+    -webkit-animation-duration: 0.9s; /*动画持续时间*/
+    -webkit-animation-timing-function: ease-in-out; /*动画频率，和transition-timing-function是一样的*/
+    -webkit-animation-delay: 0s; /*动画延迟时间*/
+    -webkit-animation-iteration-count: 1; /*定义循环资料，infinite为无限次*/
+    -webkit-animation-direction: alternate; /*定义动画方式*/
+}
+
+@-webkit-keyframes wobble {
+    0% {
+        top: 0;
+    }
+    70% {
+        top: 55%;
+    }
+    100% {
+        top: 50%;
+    }
+}
+
+.not_tarin {
+    color: #808080;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -15px;
+    margin-left: -65px;
+    text-align: center;
+}
+
+.window_bg .pagediv .items_param {
+    height: 200px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+}
+
+.window_bg .pagediv .title {
+    height: 50px;
+    font-size: 1.4em;
+    color: #ffffff;
+    font-weight: bold;
+    line-height: 50px;
+    text-align: center;
+    background: #33cbba;
+    border-radius: 5px 5px 0 0;
+}
+
+.window_bg .pagediv .search_train {
+    height: 50px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    border-top: 1px solid rgba(0, 0, 0, 0.3);;
+}
+
+.window_bg .pagediv .search_train input {
+    height: 44px;
+    margin-top: 3px;
+    font-size: 1.4em;
+    font-weight: bold;
+    padding: 0 10px;
+    width: 220px;
+    margin-left: 2px;
+    display: block;
+    border-radius: 0px;
+    float: left;
+    border: 0px solid rgba(0, 0, 0, 0.3);
+}
+
+.window_bg .pagediv .search_train a {
+    height: 50px;
+    width: 50px;
+    margin-left: 5px;
+    padding-left: 20px;
+    font-size: 1.1em;
+    display: block;
+    float: left;
+    border-bottom: 0px;
+    line-height: 50px;
+    background: url("/img/wap/search.png") no-repeat;
+    background-size: 18px 18px;
+    background-position: 5px 16px;
+}
+
+.window_bg .pagediv a {
+    display: block;
+    height: 50px;
+    font-weight: bold;
+    font-size: 1.4em;
+    width: 300px;
+    line-height: 50px;
+    margin-top: -1px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+    z-index: 1;
+    text-align: center;
+}

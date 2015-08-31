@@ -1,0 +1,22 @@
+fieldset {
+    border: 1px dashed #ABD279;
+    margin-top: 3px;
+    font-size: 12px;
+}
+
+fieldset legend {
+    font-size: 12px;
+}
+
+.table_bg {
+    background-color: #D3D3D3;
+}
+
+.table_bg td {
+    background: #eaf2ff;
+    text-align: right;
+}
+
+.table_bg th {
+    background: white;
+}

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+	"http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+	<constant name="struts.action.excludePattern" value="/js/.*" />
+	<constant name="struts.multipart.saveDir" value="/tmp" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="true" />
+	<package name="object" extends="json-default">
+		<action name="*-*" class="{1}Action" method="{2}">
+			<result name="forwardJsp">${forwardJsp}</result>
+			<result name="success">/success.jsp</result>
+			<result name="action" type="redirectAction">${actionName}</result>		<!-- 请求 -->
+			<result name="redirect" type="redirect">${redirectName}</result>		<!-- 重定向-->
+			<result name="error">/WEB-INF/webPage/error.jsp</result>
+			<result type="json"></result>
+			<result name="success" type="stream"></result><!-- 文件流 -->
+		</action>
+	</package>
+</struts>
+	

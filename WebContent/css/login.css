@@ -1,0 +1,152 @@
+@charset "utf-8";
+
+/* CSS Document */
+* {
+	padding: 0;
+	margin: 0;
+}
+
+body {
+	color: #595959;
+	font: 12px Microsoft YaHei, Helvetica, Tahoma;
+	/*background:url('') no-repeat center top;*/
+	background-color: #E0ECFF;
+}
+
+ul,li {
+	list-style: none;
+}
+
+.clr {
+	clear: both;
+}
+
+.head {
+	width: 980px;
+	margin: 0 auto;
+	padding: 10px 0;
+}
+
+.loginbg {
+	width: 100%;
+}
+
+.boxh {
+	background: url('') repeat;
+}
+
+.loginbgbox {
+	
+}
+
+.logincon .forgot {
+	margin-left: 100px;
+	display: inline;
+}
+
+.login {
+	width: 980px;
+	margin: 0 auto;
+}
+
+.userbox {
+	width: 392px;
+	height: 326px;
+	margin: 0 auto;
+	background: url("") bottom center no-repeat;
+	margin-top: 65px;
+}
+
+.loginform {
+	background: #fff;
+	height: 270px;
+}
+
+.logintitle {
+	font-size: 22px;
+	height: 46px;
+	line-height: 46px;
+	color: #fff;
+	background: #3d7fd1;
+	border-bottom: 1px solid #3264a2;
+	text-align: center;
+	font-weight: normal;
+}
+
+.logincon li,.forgetcon li {
+	width: 354px;
+	float: left;
+	margin-top: 25px;
+	height: 30px;
+}
+
+.forgot a {
+	padding-right: 5px;
+}
+
+.logincon label,.forgetcon label {
+	font-size: 14px;
+	width: 100px;
+	text-align: right;
+	float: left;
+	display: block;
+	height: 40px;
+	line-height: 40px;
+}
+
+.loginform .txt,.txt-yanzhen,.forgetcon .txt {
+	float: left;
+	padding: 0 5px;
+	width: 242px;
+	height: 40px;
+	line-height: 40px;
+	border: 1px solid #dcdcdc;
+	font-family: Microsoft YaHei, Helvetica, Tahoma;
+	background: #eff0f2;
+}
+
+.logincon {
+	padding-top: 20px;
+	float: left;
+	width: 392px;
+}
+
+.loginFormBtn {
+	width: 133px;
+	height: 40px;
+	background: url("/images/loginbutton.jpg") no-repeat;
+	margin: auto;
+}
+
+.logincon { / /
+	margin-bottom: 15 px;
+}
+
+.loginFormBtn a {
+	display: block;
+	height: 40px;
+	width: 133px;
+}
+
+.bottom {
+	display: block;
+	position: fixed;
+	bottom: 0px;"C:/Windows/System32/drivers/etc/hosts"
+	height: 45px;
+	width: 100%;
+	background: #3d7fd1;
+}
+
+.logincon li {
+	display: block;
+}
+
+.bottom p {
+	width: 980px;
+	font-size: 14px;
+	color: #fff;
+	height: 45px;
+	line-height: 45px;
+	text-align: center;
+	margin: 0 auto;
+}
