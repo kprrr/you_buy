@@ -1,7 +1,7 @@
-var title = "秘籍";
+var title = "场馆";
 
 $(function() {
-	initData();
+	//initData();
 	// 绑定事件
 	$("#search").click(search);// 数据检索
 	$("#add").click(addForm);
@@ -22,7 +22,7 @@ function reload() {
 
 // 添加界面
 function addForm() {
-	opentForm("win", "新建" + title, "execute.jsp", 280, 200);
+	opentForm("win", "新建" + title, "execute.jsp", 380, 300);
 }
 
 // 修改界面

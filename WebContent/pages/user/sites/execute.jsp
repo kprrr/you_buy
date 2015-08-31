@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=utf-8" language="java"
 	errorPage=""%>
+	
 <link rel="stylesheet" type="text/css" href="/css/sys/allExecute.css" />
 <script>
 	var id = "${param.id}"
@@ -15,7 +16,7 @@
 			</td>
 			<th>
 				<input class="easyui-validatebox textbox" placeholder="请输入场馆名称"
-					type="text" id="title" name="title" data-options="required:true" />
+					type="text" id="name" name="name" data-options="required:true" />
 			</th>
 		</tr>
 		<tr>
@@ -23,8 +24,8 @@
 				类型:
 			</td>
 			<th>
-				<input class="easyui-validatebox textbox" placeholder="请输入简介"
-					type="text" id="content" name="content"
+				<input class="easyui-validatebox textbox" placeholder="请输入类型"
+					type="text" id="type" name="type"
 					data-options="required:true" />
 			</th>
 		</tr>
@@ -33,7 +34,7 @@
 				图片:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input type="file" name="img" data-options="prompt:'Choose a file...'" >
 
 			</th>
 		</tr>
@@ -42,7 +43,8 @@
 				价格:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input class="easyui-validatebox textbox" placeholder="请输入价格"
+					type="text" id="price" name="price" data-options="required:true" />元/小时
 
 			</th>
 		</tr>
@@ -51,7 +53,8 @@
 				地址:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input class="easyui-validatebox textbox" placeholder="请输入场馆地址，限100个字符"
+					type="text" id="place" name="place" data-options="required:true" />
 
 			</th>
 		</tr>
@@ -60,7 +63,10 @@
 				所属区域:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<select class="easyui-combobox" 
+				id="region_id" name="region_id" data-options="required:true" >
+				<option value="请选择" >请选择</option>
+				</select>
 
 			</th>
 		</tr>
@@ -69,7 +75,8 @@
 				电话:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input class="easyui-validatebox textbox" placeholder="请输输入场馆联系电话"
+					type="text" id="tel" name="tel" data-options="required:true" />
 
 			</th>
 		</tr>
@@ -78,7 +85,8 @@
 				经度:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input class="easyui-validatebox textbox" placeholder="请输入场馆经度"
+					type="text" id="Longitude" name="Longitude" data-options="required:true" />
 
 			</th>
 		</tr>
@@ -87,7 +95,8 @@
 				纬度:
 			</td>
 			<th>
-				<input id="author" name="author" data-options="required:true">
+				<input class="easyui-validatebox textbox" placeholder="请输入场馆纬度"
+					type="text" id="Latitude" name="Latitude" data-options="required:true" />
 
 			</th>
 		</tr>

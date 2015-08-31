@@ -1,5 +1,4 @@
 var data = {
-	id : id
 };
 
 $(function() {
@@ -12,16 +11,23 @@ function subMit() {
 }
 
 function initView() {
-	if (id != "") {
-		initForm("post-get", data, function(json) {
-			initUsers(json.author);
-		});// 初始化数据
-	} else {
-		initUsers();
-	}
+	$.post('site-getRegion',function(json){
+		if(json.code == 10000) {
+			var data = json.data;
+			$.each(data,function(index,ele){
+				alert(22)
+				var dom = "<option value='"+data[index].region_id+"' >"+data[index].region_name+"</option>";
+				$("#region_id").append(dom);
+			});
+		}
+	},'json');
+//		initForm("site-getRegion", data, function(json) {
+//			console.log(json.data)
+//			initUsers(json.author);
+//		});// 初始化数据
 }
-
-function initUsers(authorId) {
+//初始化下拉菜单值
+function initRegions(authorId) {
 	var userDom = new initWithCommbox('author');
 	userDom.setUrl("user-get?selectMenu=id,name");
 	userDom.setValueAndText("id", "name");

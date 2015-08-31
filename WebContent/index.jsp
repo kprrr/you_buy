@@ -49,11 +49,11 @@
 <!-- 					<span>秘籍管理</span> -->
 <!-- 				</div> -->
 
-<!-- 				<div class="nav-item menuItem" -->
-<!-- 					onclick="addMenuTab('用户数据','/pages/user/user/list.jsp')"> -->
-<!-- 					<img src="/images/users.png"></img> -->
-<!-- 					<span>用户数据</span> -->
-<!-- 				</div> -->
+				<div class="nav-item menuItem"
+					onclick="addMenuTab('用户数据','/pages/user/user/list.jsp')">
+					<img src="/images/users.png"></img>
+					<span>用户数据</span>
+				</div>
 
 
 			</div>
