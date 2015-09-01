@@ -48,12 +48,58 @@
 <!-- 					<img src="/images/miji.png"></img> -->
 <!-- 					<span>秘籍管理</span> -->
 <!-- 				</div> -->
+<!-- <div class="nav-item menuItem" -->
+<!-- 					onclick="addMenuTab('帮会管理','/pages/user/gang/list.jsp')"> -->
+<!-- 					<img src="/images/banghu.png"></img> -->
+<!-- 					<span>帮会管理</span> -->
+<!-- 				</div> -->
 
-				<div class="nav-item menuItem"
-					onclick="addMenuTab('用户数据','/pages/user/user/list.jsp')">
-					<img src="/images/users.png"></img>
-					<span>用户数据</span>
-				</div>
+<!--                 <div class="nav-item menuItem" -->
+<!--                      onclick="addMenuTab('任务管理','/pages/user/task/list.jsp')"> -->
+<!--                     <img src="/images/renwu.png"></img> -->
+<!--                     <span>任务管理</span> -->
+<!--                 </div> -->
+
+<!-- 				<div class="nav-item menuItem" -->
+<!-- 					onclick="addMenuTab('帮会建筑功能设定','/pages/user/gang_arti/list.jsp')"> -->
+<!-- 					<img src="/images/jianzhu.png"></img> -->
+<!-- 					<span>帮会建筑功能设定</span> -->
+<!-- 				</div> -->
+
+<!-- 				<div class="nav-item menuItem" -->
+<!-- 					onclick="addMenuTab('帮战管理','/pages/user/gang_war_info/list.jsp')"> -->
+<!-- 					<img src="/images/paiming.png"></img> -->
+<!-- 					<span>帮战管理</span> -->
+<!-- 				</div> -->
+<!-- 				<div class="nav-item menuItem" -->
+<!-- 					onclick="addMenuTab('帮会游戏','/pages/user/gang_game/list.jsp')"> -->
+<!-- 					<img src="/images/game.png"></img> -->
+<!-- 					<span>帮会游戏</span> -->
+<!-- 				</div> -->
+
+<!--                 <div class="nav-item menuItem" onclick="addMenuTab('论坛管理', '/pages/user/forum/list.jsp')"> -->
+<!--                     <img src="images/luntan.png"></img> -->
+<!--                     <span>论坛管理</span> -->
+<!--                 </div> -->
+
+<!--                 <div class="nav-item menuItem" onclick="addMenuTab('下载量管理', '/pages/user/download/list.jsp')"> -->
+<!--                     <img src="images/xiazailiang.jpg"></img> -->
+<!--                     <span>下载量管理</span> -->
+<!--                 </div> -->
+                
+<!--                 <div class="nav-item menuItem" onclick="addMenuTab('广告管理', '/pages/user/banner/list.jsp')"> -->
+<!--                     <img src="images/xiazailiang.jpg"></img> -->
+<!--                     <span>广告管理</span> -->
+<!--                 </div> -->
+<!--                  <div class="nav-item menuItem" onclick="addMenuTab('兑换记录', '/pages/user/user_prize_a/list.jsp')"> -->
+<!--                     <img src="images/xiazailiang.jpg"></img> -->
+<!--                     <span>兑换记录</span> -->
+<!--                 </div> -->
+<!-- 				<div class="nav-item menuItem" -->
+<!-- 					onclick="addMenuTab('用户数据','/pages/user/user/list.jsp')"> -->
+<!-- 					<img src="/images/users.png"></img> -->
+<!-- 					<span>用户数据</span> -->
+<!-- 				</div> -->
 
 
 			</div>

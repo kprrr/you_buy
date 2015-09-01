@@ -4,13 +4,13 @@ import java.util.List;
 
 import com.sys.model.site;
 
-public abstract interface SiteDao {
+public interface SiteDao {
 
-    List<site> getSites(site site);
+    public List<site> getSites(site site);
 
-    String addSite(site site);
+    public String addSite(site site);
 
-    String deleteSite(site site);
+    public String deleteSite(site site);
 
-    String updateSite(site site);
+    public String updateSite(site site);
 }

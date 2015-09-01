@@ -1,4 +1,4 @@
-﻿<%@ page import="java.util.Date" %>
+<%@ page import="java.util.Date" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -14,6 +14,7 @@
 <script type="text/javascript" src="${ctx }easyui/jquery-1.7.2.min.js"></script>
 <script type="text/javascript" src="${ctx }easyui/json2.js"></script>
 <script type="text/javascript" src="${ctx }easyui/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="${ctx }easyui/jquery.json.js"></script>
 <script type="text/javascript" src="${ctx }js/sys/common.js"></script>
 <script type="text/javascript" src="${ctx }js/sys/tool.js"></script>
 <script type="text/javascript" src="${ctx }easyui/locale/easyui-lang-zh_CN.js"></script>

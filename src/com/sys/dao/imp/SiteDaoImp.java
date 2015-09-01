@@ -9,12 +9,11 @@ import com.base.JdbcDao;
 import com.sys.dao.SiteDao;
 import com.sys.model.site;
 
-@Component("sitesDao")
+@Component("siteDao")
 @Scope("prototype")
-public class SitesDaoImp extends JdbcDao implements SiteDao {
+public class SiteDaoImp extends JdbcDao implements SiteDao {
     public List<site> getSites(site site) {
-        String sql = "select * from sites where 1=1 ";
-        return selectSql(sql, site);
+        return selectSql(site.sqlSelect(site),site);
     }
 
     public String addSite(site site) {

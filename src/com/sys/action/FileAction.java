@@ -27,8 +27,6 @@ public class FileAction extends BaseAction {
 
     //文件上传 file-upload
     public void upload() {
-        sys_user user = this.loginSystemUser();
-        if (user != null) {
             String dFileName = fileFileName + "";
             fileFileName = fileFileName.substring(
                     fileFileName.lastIndexOf("."), fileFileName.length());
@@ -50,7 +48,6 @@ public class FileAction extends BaseAction {
                 this.outHtml(codeJson(SCODE, json));
             } catch (Exception e) {
                 e.printStackTrace();
-            }
         }
     }
 

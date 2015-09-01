@@ -21,7 +21,7 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
 
     @Autowired
     @Resource
-    public SiteDao sitesDao;
+    public SiteDao siteDao;
     
     @Autowired
     @Resource
@@ -32,25 +32,25 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
 
     //site-get
     public void get() {
-            List list = this.sitesDao.getSites(site);
+            List list = this.siteDao.getSites(site);
             outJson(list);
         }
 
     //site-add
     public void add() {
-            String mess = sitesDao.addSite(site);
+            String mess = siteDao.addSite(site);
             this.outJson(mess);
     }
 
     //site-remove
     public void remove() {
-            String mess = sitesDao.deleteSite(site);
+            String mess = siteDao.deleteSite(site);
             this.outJson(mess);
     }
 
     //site-update
     public void update() {
-            String mess = sitesDao.updateSite(site);
+            String mess = siteDao.updateSite(site);
             this.outJson(mess);
     }
 

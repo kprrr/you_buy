@@ -1,7 +1,7 @@
 var title = "场馆";
 
 $(function() {
-	//initData();
+	initData();
 	// 绑定事件
 	$("#search").click(search);// 数据检索
 	$("#add").click(addForm);
@@ -43,9 +43,17 @@ function remove() {
 	}
 }
 function initData() {
+	$.post('site-get',function(json){
+		var data = json.data;
+		listInitial(data);
+	},'json');
+	
+}
+function listInitial(data){
 	$("#list").datagrid( {
 		method : "post",
-		url : "post-get?category=1",
+//		url : "site-get",
+		data:data,
 		fit : true,
 		fitColumns : true,
 		pagination : true,
@@ -59,22 +67,52 @@ function initData() {
 		},
 
 		{
-			field : 'title',
-			title : '秘籍名称',
+			field : 'name',
+			title : '场馆名称',
 			align : 'center',
 			width : fixWidthTable()
 		}, {
-			field : 'content',
-			title : '简介',
+			field : 'type',
+			title : '类型',
 			align : 'center',
 			width : fixWidthTable()
 		}, {
-			field : 'attach_name',
-			title : '创建人',
+			field : 'img',
+			title : '图片路径',
 			align : 'center',
 			width : fixWidthTable()
 		}, {
-			field : 'time',
+			field : 'price',
+			title : '价格',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'place',
+			title : '地址',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'region_id',
+			title : '所属区域',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'tel',
+			title : '电话',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'longitude',
+			title : '经度',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'latitude',
+			title : '纬度',
+			align : 'center',
+			width : fixWidthTable()
+		},{
+			field : 'createtime',
 			title : '创建时间',
 			align : 'center',
 			width : fixWidthTable()

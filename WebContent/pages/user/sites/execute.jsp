@@ -34,7 +34,13 @@
 				图片:
 			</td>
 			<th>
-				<input type="file" name="img" data-options="prompt:'Choose a file...'" >
+				<a href="javascript:;" id="select_file" style="width: 150px"
+					class="easyui-linkbutton" data-options="iconCls:'icon-search'">点击上传图片</a>
+				<input name="file" id="imgBtn" type="file" style="display: none;"
+					ltype="text" />
+
+				<input name="img" id="img" type="hidden" />
+				<img class="image" id="icon" tag="icon" width="100px" height="100px" style="margin-top: 5px" />
 
 			</th>
 		</tr>
@@ -63,10 +69,8 @@
 				所属区域:
 			</td>
 			<th>
-				<select class="easyui-combobox" 
-				id="region_id" name="region_id" data-options="required:true" >
-				<option value="请选择" >请选择</option>
-				</select>
+				<input class="easyui-combobox" 
+				id="region_id" name="region_id" data-options="valueField:'region_id',textField:'region_name'" />
 
 			</th>
 		</tr>
@@ -86,7 +90,7 @@
 			</td>
 			<th>
 				<input class="easyui-validatebox textbox" placeholder="请输入场馆经度"
-					type="text" id="Longitude" name="Longitude" data-options="required:true" />
+					type="text" id="longitude" name="longitude" data-options="required:true" />
 
 			</th>
 		</tr>
@@ -96,7 +100,7 @@
 			</td>
 			<th>
 				<input class="easyui-validatebox textbox" placeholder="请输入场馆纬度"
-					type="text" id="Latitude" name="Latitude" data-options="required:true" />
+					type="text" id="latitude" name="latitude" data-options="required:true" />
 
 			</th>
 		</tr>

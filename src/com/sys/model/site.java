@@ -13,12 +13,12 @@ public class site implements Serializable{
 	private String name;//
 	private Integer type;//
 	private String img;//
-	private Float price;//
+	private String price;//
 	private String place;//
 	private String region_id;//
 	private String tel;//
-	private String Longitude;//
-	private String Latitude;//
+	private String longitude;//
+	private String latitude;//
 	private String createtime;//
 	private Integer isdetele;//
 
@@ -47,10 +47,11 @@ public class site implements Serializable{
 		this.img = img;
 	}
 	 
-	public Float getPrice() {
+	 
+	public String getPrice() {
 		return price;
 	}
-	public void setPrice(Float price) {
+	public void setPrice(String price) {
 		this.price = price;
 	}
 	public String getPlace() {
@@ -71,17 +72,18 @@ public class site implements Serializable{
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+	 
 	public String getLongitude() {
-		return Longitude;
+		return longitude;
 	}
-	public void setLongitude(String Longitude) {
-		this.Longitude = Longitude;
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
 	}
 	public String getLatitude() {
-		return Latitude;
+		return latitude;
 	}
-	public void setLatitude(String Latitude) {
-		this.Latitude = Latitude;
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
 	}
 	public String getCreatetime() {
 		return createtime;
@@ -100,9 +102,9 @@ public class site implements Serializable{
 	public String sqlInsert(){
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into sites ");
-		sql.append("(id, name, type, img, price, place, region_id, tel, Longitude, Latitude, createtime, isdetele) ");
-		sql.append("values ");
-		sql.append("(:id, :name, :type, :img, :price, :place, :region_id, :tel, :Longitude, :Latitude, CURRENT_TIMESTAMP, :isdetele) ");
+		sql.append(" (id, name, type, img, price, place, region_id, tel, longitude, latitude, createtime, isdetele) ");
+		sql.append(" values ");
+		sql.append("(:id, :name, :type,:img, :price,:place,:region_id,:tel,:longitude,:latitude, CURRENT_TIMESTAMP, :isdetele) ");
 		return sql.toString();
 	}
 	
@@ -116,9 +118,14 @@ public class site implements Serializable{
 	//生成查询语句
 	public String sqlSelect(site sites){
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, name, type, img, price, place, region_id, tel, Longitude, Latitude, createtime, isdetele ");
+		sql.append("select id, name, type, img, price, place, region_id, tel, longitude, latitude, createtime, isdetele ");
 		sql.append("from sites where 1 = 1 ");
-		
+		if(sites.getId()!=null&&sites.getId().length()>0){
+			sql.append(" and id = :id");
+		}
+		if(sites.getName()!=null&&sites.getName().length()>0){
+			sql.append(" and name = :name");
+		}
 		
 		return sql.toString();
 	}
