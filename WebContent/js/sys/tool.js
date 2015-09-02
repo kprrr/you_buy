@@ -35,7 +35,7 @@ function formSubMit(url, data) {
 function initForm(url, data, resultJson) {
     //加载数据
     getData(url, data, function (json) {
-        var temp = json.rows[0];
+        var temp = json.data;
         var inputValues = {};
         //对输入框注值
         $("#form .textbox").each(function (index, dom) {
@@ -60,7 +60,7 @@ function initForm(url, data, resultJson) {
         });
         //图片
         $("#form .image").each(function (index, dom) {
-            $(dom).attr("src", eval("temp." + $(dom).attr("tag")));
+            $(dom).attr("src", eval("temp.img" ));
         });
 
         //其他后续注入

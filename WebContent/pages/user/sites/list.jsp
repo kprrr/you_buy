@@ -13,25 +13,25 @@
 <body id="mainWin" class="easyui-layout">
 
 <!-- 查询条件 -->
-<div data-options="region:'north',title:'数据检索',iconCls:'icon-search'"
-     style="height:100px; min-width: 300px; overflow:hidden">
-    <fieldset>
-        <legend>数据检索</legend>
-        <table border="0" cellpadding="5" cellspacing="1" class="table_bg">
-            <tr>
-                <td>场馆名称:</td>
-                <th>
-                    <input class="easyui-validatebox textbox" type="text" id="s_title"/>
-                </th>
-                <th>
-                    <a href="javascript:;" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'"
-                       onclick=""> 检索 </a>
-                </th>
-            </tr>
-        </table>
+<!-- <div data-options="region:'north',title:'数据检索',iconCls:'icon-search'" -->
+<!--      style="height:100px; min-width: 300px; overflow:hidden"> -->
+<!--     <fieldset> -->
+<!--         <legend>数据检索</legend> -->
+<!--         <table border="0" cellpadding="5" cellspacing="1" class="table_bg"> -->
+<!--             <tr> -->
+<!--                 <td>场馆名称:</td> -->
+<!--                 <th> -->
+<!--                     <input class="easyui-validatebox textbox" type="text" id="s_title"/> -->
+<!--                 </th> -->
+<!--                 <th> -->
+<!--                     <a href="javascript:;" id="search" class="easyui-linkbutton" data-options="iconCls:'icon-search'" -->
+<!--                        onclick=""> 检索 </a> -->
+<!--                 </th> -->
+<!--             </tr> -->
+<!--         </table> -->
 
-    </fieldset>
-</div>
+<!--     </fieldset> -->
+<!-- </div> -->
 
 <!-- 主界面 -->
 <div region="center">

@@ -1,5 +1,7 @@
 var data = {
+		id:id
 };
+//alert(data.id);
 
 $(function() {
 	initView();
@@ -8,6 +10,13 @@ $(function() {
 
 // 提交表单
 function subMit() {
+	var url="";
+	if(data.id != ""){
+		url="site-update";
+	}else {
+		url="site-add";
+	};
+	
 	   $("#form").find("input").each(function(index,element){
 		   if(element.id != "") {
 			   if(element.id == "region_id") {
@@ -21,7 +30,7 @@ function subMit() {
 		   });
 	   $.ajax({
 		    type : "POST",
-		    url : "site-add",
+		    url : url,
 		    data : data,
 		    dataType : "json", //服务器返回结果的数据格式，如Json，xml，html等
 		    processdata : true, //True or False
@@ -44,6 +53,19 @@ function subMit() {
 }
 
 function initView() {
+	if(data.id != "") {
+		initForm("site-getSingleSite", data, function(json) {
+			initRegion();
+		});
+	}else {
+		initRegion();
+	}
+	
+	
+	
+}
+
+function initRegion() {
 	//初始化区域信息
 	$.post('site-getRegion',function(json){
 		if(json.code == 10000) {
@@ -56,6 +78,8 @@ function initView() {
 		}
 	},'json');
 }
+
+
 function initUpload() {
 	// 初始化上传文件事件
 	$("#select_file").click(function() {

@@ -36,6 +36,14 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
             outJson(list);
         }
 
+    //site-getSingleSite
+    public void getSingleSite() {
+    	List list = this.siteDao.getSites(site);
+    	if(list != null && list.size() == 1) {
+    		outJson(list.get(0));
+    	}
+    }
+    
     //site-add
     public void add() {
             String mess = siteDao.addSite(site);

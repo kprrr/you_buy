@@ -13,7 +13,8 @@ import com.sys.model.site;
 @Scope("prototype")
 public class SiteDaoImp extends JdbcDao implements SiteDao {
     public List<site> getSites(site site) {
-        return selectSql(site.sqlSelect(site),site);
+    	String sql = site.sqlSelectWithRegionName(site);
+        return selectSql(sql,site);
     }
 
     public String addSite(site site) {

@@ -21,7 +21,18 @@ public class site implements Serializable{
 	private String latitude;//
 	private String createtime;//
 	private Integer isdetele;//
+	
+	
+	private String region_name;
+	
+	
 
+	public String getRegion_name() {
+		return region_name;
+	}
+	public void setRegion_name(String region_name) {
+		this.region_name = region_name;
+	}
 	public String getId() {
 		return id;
 	}
@@ -116,19 +127,32 @@ public class site implements Serializable{
 	}
 	
 	//生成查询语句
-	public String sqlSelect(site sites){
+	public String sqlSelect(site site){
 		StringBuffer sql = new StringBuffer();
 		sql.append("select id, name, type, img, price, place, region_id, tel, longitude, latitude, createtime, isdetele ");
 		sql.append("from sites where 1 = 1 ");
-		if(sites.getId()!=null&&sites.getId().length()>0){
+		if(site.getId()!=null&&site.getId().length()>0){
 			sql.append(" and id = :id");
 		}
-		if(sites.getName()!=null&&sites.getName().length()>0){
+		if(site.getName()!=null&&site.getName().length()>0){
 			sql.append(" and name = :name");
 		}
 		
 		return sql.toString();
 	}
+	
+	public String sqlSelectWithRegionName(site site) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT r.region_name as region_name,s.* from sites s LEFT JOIN region r ON s.region_id = r.region_id where 1=1 ");
+		if(site.getId()!=null&&site.getId().length()>0){
+			sql.append(" and id = :id");
+		}
+		if(site.getName()!=null&&site.getName().length()>0){
+			sql.append(" and name = :name");
+		}
+		return sql.toString();
+	}
+	
 	
 	//生成修改语句
 	public String sqlUpdate(site sites){
@@ -158,18 +182,18 @@ public class site implements Serializable{
 			sql.append(",tel = :tel");
 		}
 		if(sites.getLongitude()!=null&&sites.getLongitude().length()>0){
-			sql.append(",Longitude = :Longitude");
+			sql.append(",longitude = :longitude");
 		}
 		if(sites.getLatitude()!=null&&sites.getLatitude().length()>0){
-			sql.append(",Latitude = :Latitude");
+			sql.append(",latitude = :latitude");
 		}
 		if(sites.getCreatetime()!=null&&sites.getCreatetime().length()>0){
-			sql.append(",createtime = :createtime");
+			sql.append(",createtime = CURRENT_TIMESTAMP");
 		}
 		if(sites.getIsdetele()!=null){
 			sql.append(",isdetele = :isdetele");
 		}
-		
+		sql.append( " where id=:id");
 		
 		return sql.toString();
 	}

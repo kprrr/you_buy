@@ -17,7 +17,7 @@ function search() {
 }
 // 刷新
 function reload() {
-	$("#list").datagrid('reload');
+	initData();
 }
 
 // 添加界面
@@ -29,7 +29,7 @@ function addForm() {
 function updateForm() {
 	var row = getSelectRow('list');
 	if (row != null) {
-		opentForm("win", "修改" + title, "execute.jsp?id=" + row.id, 280, 200);
+		opentForm("win", "修改" + title, "execute.jsp?id=" + row.id, 380, 300);
 	}
 }
 
@@ -37,7 +37,7 @@ function updateForm() {
 function remove() {
 	var row = getSelectRow('list');
 	if (row != null) {
-		deleteData(row.title, "post-remove", {
+		deleteData(row.name, "site-remove", {
 			id : row.id
 		});
 	}
@@ -92,7 +92,7 @@ function listInitial(data){
 			align : 'center',
 			width : fixWidthTable()
 		},{
-			field : 'region_id',
+			field : 'region_name',
 			title : '所属区域',
 			align : 'center',
 			width : fixWidthTable()

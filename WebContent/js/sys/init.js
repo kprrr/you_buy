@@ -52,7 +52,7 @@ function getData(url, data, sucessfn, loadingId) {
         },
         success: function (json) {
             //removeload();
-            if (json.code == 1) {
+            if (json.code == 1 || json.code == 10000) {
                 sucessfn(json);
             } else {
                 $.messager.show({
