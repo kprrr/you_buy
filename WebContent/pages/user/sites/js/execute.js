@@ -37,7 +37,7 @@ function subMit() {
 		    success : function(json) {
 		     if(json.code==1) {
 		    	//刷新父窗体数据
-	               // $("#list").datagrid('reload');
+	                $("#list").datagrid('reload');
 	                //关闭窗体
 	                $('#win').window('close');
 		     }else {

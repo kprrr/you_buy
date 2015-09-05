@@ -161,7 +161,7 @@ public class site implements Serializable{
 		
 		sql.append("set id = :id");
 		if(sites.getName()!=null&&sites.getName().length()>0){
-			sql.append(",name = :name");
+			sql.append(",name = '"+sites.getName()+"'");
 		}
 		if(sites.getType()!=null){
 			sql.append(",type = :type");
