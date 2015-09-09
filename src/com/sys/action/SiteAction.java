@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -30,6 +31,13 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
     
     site site = new site();
 
+    //site-test
+    public void test() {
+    	System.out.println("元文兄的第一次:"+getRequest().getParameter("GsonTest"));
+    	outJson("success");
+    }
+    
+    
     //site-get
     public void get() {
             List list = this.siteDao.getSites(site);
