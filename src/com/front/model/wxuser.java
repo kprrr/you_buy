@@ -19,9 +19,23 @@ public class wxuser implements Serializable{
 	private String wxuser_address;//
 	private String signature;//
 	private String tel;//
+	private float wxuser_longitude;
+	private float wxuser_latitude;
 	private String createtime;//
 	private Integer isdelete;//
 
+	public float getWxuser_longitude() {
+		return wxuser_longitude;
+	}
+	public void setWxuser_longitude(float wxuser_longitude) {
+		this.wxuser_longitude = wxuser_longitude;
+	}
+	public float getWxuser_latitude() {
+		return wxuser_latitude;
+	}
+	public void setWxuser_latitude(float wxuser_latitude) {
+		this.wxuser_latitude = wxuser_latitude;
+	}
 	public String getId() {
 		return id;
 	}

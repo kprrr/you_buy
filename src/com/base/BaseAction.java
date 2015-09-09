@@ -1,73 +1,99 @@
 package com.base;
 
+import com.opensymphony.xwork2.ActionSupport;
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.apache.struts2.ServletActionContext;
-import org.apache.struts2.interceptor.SessionAware;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.opensymphony.xwork2.ActionSupport;
-import com.sys.model.sys_user;
+import javax.servlet.http.*;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 import net.sf.json.util.PropertyFilter;
 
+import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.interceptor.SessionAware;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
- * stauts 甯哥敤鏂规硶
+ * stauts 常用方法
  * 
- * @author 寮犲畯
+ * @author 张宏
+ * 
  */
 @SuppressWarnings("serial")
 public class BaseAction extends ActionSupport implements SessionAware {
 
-	protected String FORWARD = "forwardJsp"; // 椤甸潰璺宠浆
-	protected String ACTION = "action"; // 璇锋眰璺宠浆
-	protected String REDIRECT = "redirect"; // 閲嶅畾鍚�
-	protected int SCODE = 1;// 鎴愬姛
-	protected int ECODE = 0;// 鎴愬姛
-
+	
+	protected String FORWARD = "forwardJsp";          //页面跳转   
+	protected String ACTION = "action";		          //请求跳转   
+	protected String REDIRECT = "redirect";	          //重定向    
+	protected int SCODE = 1;// 成功
+	protected int ECODE = 0;// 成功
+	
 	protected String forwardJsp = null;
 	protected String actionName = null;
 	protected String redirectName = null;
+	
+	public String pageSize;
+	public String pageNo;
 
-	public String rows;
-	public String page;
+	protected String SMESS = "成功!";
+	protected String EMESS = "失败!";
+	
+	protected String sqlSelectName="sqlSelect";
+	protected String sqlInsertName="sqlInsert";
+	protected String sqlDeleteName="sqlDelete";
+	protected String sqlUpdateName="sqlUpdate";
 
-	protected String SMESS = "鎴愬姛!";
-	protected String EMESS = "澶辫触!";
-
-	// 鑾峰彇寰俊骞冲彴鍙戦�杩囨潵鐨刾ost鏁版嵁
-	public String getPostXml() {
-		if (this.getRequest().getMethod().equals("POST")) {
+	
+	protected HashMap<Object, String> sqlMap = new HashMap<Object, String>();
+//	protected StringBuffer mess ;
+	
+	//执行sql的公共方法
+	public String executeSqlMap(ServiceDao serviceDao,HashMap<Object, String> sqlMap) {
+		String mess="";
+		Boolean flag = serviceDao.executeSql(sqlMap);
+		if(flag) {
+			mess=this.codeMess(SCODE, SMESS);
+		}else {
+			mess=this.codeMess(ECODE, EMESS);
+		}
+		return mess;
+	}
+	
+	//获取微信平台发送过来的post数据
+	public String getPostXml(){
+		if(this.getRequest().getMethod().equals("POST")){
 			try {
 				InputStream in = this.getRequest().getInputStream();
-				ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-				byte[] data = new byte[500];
-				int count = -1;
-				while ((count = in.read(data, 0, 500)) != -1)
-					outStream.write(data, 0, count);
-				data = null;
-				return new String(outStream.toByteArray(), "utf-8");
+				ByteArrayOutputStream outStream = new ByteArrayOutputStream();  
+				byte[] data = new byte[500];  
+				int count = -1;  
+				while((count = in.read(data,0,500)) != -1)  
+				outStream.write(data, 0, count);  
+				 data = null;  
+				       return new String(outStream.toByteArray(),"utf-8");  
 			} catch (Exception e) {
 				return null;
 			}
-		} else {
+		}else
+		{
 			return null;
 		}
 	}
-
+	
+	
 	public String getRedirectName() {
 		return redirectName;
 	}
@@ -129,54 +155,50 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	public void setAttribute(String key, Object value) {
 		this.getRequest().setAttribute(key, value);
 	}
+	
 
-	// 鑾峰彇tomcat璺緞
-	public String getFilePath() {
+	//获取tomcat路径
+	public String getFilePath(){
 		return this.getRequest().getSession().getServletContext().getRealPath(
-				"");
+		"");
 	}
-
-	public String getBaseUrl() {
+	
+	public String getBaseUrl(){
 		String path = this.getRequest().getContextPath();
-		String basePath = this.getRequest().getScheme() + "://"
-				+ this.getRequest().getServerName() + ":"
-				+ this.getRequest().getServerPort() + path + "/";
+		String basePath = this.getRequest().getScheme()+"://"+this.getRequest().getServerName()+":"+this.getRequest().getServerPort()+path+"/";
 		return basePath;
 	}
-
-	public String getRequestUrl() {
+	
+	public String getRequestUrl(){
 		String path = this.getRequest().getContextPath();
-		String basePath = this.getRequest().getScheme() + "://"
-				+ this.getRequest().getServerName() + ":"
-				+ this.getRequest().getServerPort() + path + "/";
+		String basePath = this.getRequest().getScheme()+"://"+this.getRequest().getServerName()+":"+this.getRequest().getServerPort()+path+"/";
 		return basePath;
 	}
-
-	// 鎵цjavaScript鏂规硶
-	public void executeJavaScriptFunction(boolean parent, String functionName,
-			String fileName, int type, String fileId) {
+	
+	//执行javaScript方法 
+	public void executeJavaScriptFunction(boolean parent,
+			String functionName,
+			String fileName,
+			int type,
+			String fileId){
 		String js = "<script>window.";
-		if (parent) {
-			js += "parent.";
+		if(parent){
+			js+="parent.";
 		}
-		js += functionName + "('" + fileName + "','" + type + "','" + fileId
-				+ "');</script>";
-
+		js+= functionName + "('"+fileName+"','"+type+"','"+ fileId +"');</script>";
+	
 		this.outJson(js);
 	}
-
+	
 	public String codeMess(int code, String mess) {
-		String temp = "{\"code\":\"" + code + "\",\"mess\":\"" + mess + "\"}";// json
-																				// 鏍煎紡
+		String temp = "{\"code\":\"" + code + "\",\"mess\":\"" + mess + "\"}";// json 格式
 		return temp;
 	}
-
 	public String codeJson(int code, String json) {
-		String temp = "{\"code\":\"" + code + "\",\"mess\":" + json + "}";// json
-																			// 鏍煎紡
+		String temp = "{\"code\":\"" + code + "\",\"mess\":" + json + "}";// json 格式
 		return temp;
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	public void addActionError(String error) {
 		super.addActionError(error);
@@ -203,7 +225,7 @@ public class BaseAction extends ActionSupport implements SessionAware {
 		session.remove("actionMessages");
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public Collection getActionErrors() {
 		Collection errors = super.getActionErrors();
 		if (errors.isEmpty()) {
@@ -214,22 +236,6 @@ public class BaseAction extends ActionSupport implements SessionAware {
 			}
 		}
 		return errors;
-	}
-
-	// 鍒ゆ柇鏄惁鐧诲綍
-	public sys_user loginSystemUser() {
-		sys_user user = (sys_user) session.get("systemUserInfo");// 闇�鐧诲綍鐨勫叏閮ㄤ负post璇锋眰
-		if (user != null) {
-			if (true || this.getRequest().getMethod().equals("POST")) {
-				return user;
-			} else {
-				outJson(codeMess(ECODE, "闈炴硶璇锋眰"));
-				return null;
-			}
-		} else {
-			outJson(codeMess(ECODE, "璇峰厛鐧诲綍骞冲彴"));
-			return null;
-		}
 	}
 
 	public String getWorkPath() {
@@ -260,9 +266,8 @@ public class BaseAction extends ActionSupport implements SessionAware {
 		try {
 			this.getResponse().getWriter().write(mess.toString());
 		} catch (Exception e) {
-			// 鍐欏埌鏃ュ織鏂囦欢涓�
-			String errorMess = "\r\n璇锋眰鍙兘 瀛樺湪闂 瀵艰嚧 绋嬪簭閿欒!\r\n鍘熻姹傛槸 锛�"
-					+ getRequest().getRequestURL();
+			//写到日志文件中
+			String errorMess ="\r\n请求可能 存在问题 导致 程序错误!\r\n原请求是 ： " +getRequest().getRequestURL();
 			logger.info(errorMess);
 			try {
 				this.getResponse().getWriter().write(errorMess);
@@ -271,32 +276,14 @@ public class BaseAction extends ActionSupport implements SessionAware {
 			}
 		}
 	}
-
+	
 	public void outJson(String mess) {
-		this.getResponse().setContentType("text/json;charset=utf-8");
-		try {
-			this.getResponse().getWriter().write(mess);
-		} catch (Exception e) {
-			// 鍐欏埌鏃ュ織鏂囦欢涓�
-			String errorMess = "\r\n璇锋眰鍙兘 瀛樺湪闂 瀵艰嚧 绋嬪簭閿欒!\r\n鍘熻姹傛槸 锛�"
-					+ getRequest().getRequestURL();
-			logger.info(errorMess);
-			try {
-				this.getResponse().getWriter().write(errorMess);
-			} catch (Exception e1) {
-				logger.info(e1.getMessage());
-			}
-		}
-	}
-
-	public void outHtml(String mess) {
 		this.getResponse().setContentType("text/html;charset=utf-8");
 		try {
 			this.getResponse().getWriter().write(mess);
 		} catch (Exception e) {
-			// 鍐欏埌鏃ュ織鏂囦欢涓�
-			String errorMess = "\r\n璇锋眰鍙兘 瀛樺湪闂 瀵艰嚧 绋嬪簭閿欒!\r\n鍘熻姹傛槸 锛�"
-					+ getRequest().getRequestURL();
+			//写到日志文件中
+			String errorMess ="\r\n请求可能 存在问题 导致 程序错误!\r\n原请求是 ： " +getRequest().getRequestURL();
 			logger.info(errorMess);
 			try {
 				this.getResponse().getWriter().write(errorMess);
@@ -309,7 +296,7 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	@SuppressWarnings("unchecked")
 	public void outJson(List list, int pageCount, String pageNo) {
 
-		this.getResponse().setContentType("text/json;charset=UTF-8");
+		this.getResponse().setContentType("text/html;charset=UTF-8");
 		JSONArray jo = JSONArray.fromObject(list);
 		try {
 			this.getResponse().getWriter().write(
@@ -324,101 +311,111 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	@SuppressWarnings("unchecked")
 	public void outJson(List list) {
 
-		this.getResponse().setContentType("text/json;charset=UTF-8");
+		this.getResponse().setContentType("text/html;charset=UTF-8");
 		JSONArray jo = JSONArray.fromObject(list);
 		try {
 			this.getResponse().getWriter().write(
-					"{\"code\":\"10000\",\"data\":" + jo.toString() + "}");
+					"{\"code\":\"1\",\"data\":" + jo.toString() + "}");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-
-	public void outJson(Object o) {
-		this.getResponse().setContentType("text/json;charset=UTF-8");
+	
+	public void outJson(Object o){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
 		JsonConfig jc = new JsonConfig();
 		jc.setJsonPropertyFilter(new PropertyFilter() {
 			public boolean apply(Object arg0, String arg1, Object arg2) {
 				boolean r = false;
-				r = r || arg1.equals("pass_word") || arg1.equals("f_ids")
-						|| arg1.equals("role") || arg1.equals("ward")
-						|| arg1.equals("content"); // 娣诲姞闇�鍒犻櫎鐨勫瓧娈�
-
+					r = r ||
+					arg1.equals("pass_word")||
+					arg1.equals("f_ids")||
+					arg1.equals("role")||
+					arg1.equals("ward")||
+					arg1.equals("content");				//添加需要删除的字段
+				
 				return r;
 			}
 		});
-		JSONObject js = JSONObject.fromObject(o, jc);
+		JSONObject js = JSONObject.fromObject(o,jc);
 		try {
-			this.getResponse().getWriter().write(
-					"{\"code\":\"10000\",\"data\":" + js.toString() + "}");
+			this.getResponse().getWriter().write("{\"code\":\"1\",\"data\":" + js.toString()+"}" );
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
-	// 鏄惁閫夋嫨绗竴涓暟鎹�
-	public boolean one = false;
-
-	// 鍙互鍓旈櫎鏌愪簺瀛楁鐨勬柟娉�
-	public void outJson(final PageList pl) {
-
-		if (selectMenu != null) {
-			outJsonForSelect(pl);
-		} else {
-			this.getResponse().setContentType("text/json;charset=UTF-8");
-			JSONArray jo = JSONArray.fromObject(pl.getRows());
-			if (pl.getRemoves() != null && pl.getRemoves().size() != 0) { // 鏈夎鍒犻櫎鐨勫瓧娈�
-				JsonConfig jc = new JsonConfig();
-				jc.setJsonPropertyFilter(new PropertyFilter() {
-					public boolean apply(Object arg0, String arg1, Object arg2) {
-						boolean r = false;
-						for (String temp : pl.getRemoves()) {
-							r = r || arg1.equals(temp); // 娣诲姞闇�鍒犻櫎鐨勫瓧娈�
-						}
-						return r;
-					}
-				});
-				jo = JSONArray.fromObject(pl.getRows(), jc);
-			}
+	
+	public void jsonSystemOutPrint(String mess) {
+		this.getResponse().setContentType("text/html;charset=utf-8");
+		try {
+			this.getResponse().getWriter().write(mess);
+		} catch (Exception e) {
+			//写到日志文件中
+			String errorMess ="\r\n请求可能 存在问题 导致 程序错误!\r\n原请求是 ： " +getRequest().getRequestURL();
+			logger.info(errorMess);
 			try {
-				if (one) {
-					if (jo.size() > 0) {
-						this.getResponse().getWriter().write(
-								"{\"code\":1,\"mess\":" + jo.get(0).toString()
-										+ "}");
-					}
-				} else {
-					this.getResponse().getWriter().write(
-							"{\"code\":1,\"rows\":" + jo.toString()
-									+ ",\"total\":\"" + pl.getTotal() + "\"}");
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+				this.getResponse().getWriter().write(errorMess);
+			} catch (Exception e1) {
+				logger.info(e1.getMessage());
 			}
 		}
 	}
+	
+	//可以剔除某些字段的方法
+	public void outJson(final PageList pl) {
 
-	// 闇�鏌ヨ鐨勫瓧娈�
-	public String selectMenu;
-
-	// 鏌ヨ鍥哄畾鏁板�
-	public void outJsonForSelect(final PageList pl) {
-		this.getResponse().setContentType("text/json;charset=UTF-8");
+		this.getResponse().setContentType("text/html;charset=UTF-8");
 		JSONArray jo = null;
-		JsonConfig jc = new JsonConfig();
-		jc.setJsonPropertyFilter(new PropertyFilter() {
-			public boolean apply(Object arg0, String arg1, Object arg2) {
-				boolean r = true;
-				for (String temp : selectMenu.split(",")) {
-					r = !arg1.equals(temp); // 娣诲姞闇�娣诲姞鐨勫瓧娈�
-					if (!r) {
-						break;
+		JSONObject je = null;
+		if(pl.getRemoves()!=null&&pl.getRemoves().length!=0){	//有要删除的字段
+			JsonConfig jc = new JsonConfig();
+			jc.setJsonPropertyFilter(new PropertyFilter() {
+				public boolean apply(Object arg0, String arg1, Object arg2) {
+					boolean r = false;
+					for(String temp : pl.getRemoves()){
+						r = r ||arg1.equals(temp);				//添加需要删除的字段
 					}
+					return r;
 				}
-				return r;
+			});
+		}else{
+			jo =JSONArray.fromObject(pl.getList()); 
+		}
+		try {
+			//System.out.println("{\"code\":\"10000\",\"data\":" + jo.toString()+ ",\"pageCount\":\""+pageCount+"\",\"pageNo\":"+pageNo+"}");
+			if(je!=null){
+				this.getResponse().getWriter().write(je.toString());
+			}else
+			{
+
+				this.getResponse().getWriter().write("{\"code\":1,\"rows\":" + jo.toString()+ ",\"total\":\""+pl.getCounts()+"\"}" );
+
 			}
-		});
-		jo = JSONArray.fromObject(pl.getRows(), jc);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+	}
+	//需要查询的字段
+	public String selectMenu;
+	//查询固定数值
+	public void outJsonForSelect(final PageList pl) {
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		JSONArray jo = null;
+			JsonConfig jc = new JsonConfig();
+			jc.setJsonPropertyFilter(new PropertyFilter() {
+				public boolean apply(Object arg0, String arg1, Object arg2) {
+					boolean r = true;
+					for(String temp : selectMenu.split(",")){
+						r = !arg1.equals(temp);				//添加需要添加的字段
+						if(!r){
+							break;
+						}
+					}
+					return r;
+				}
+			});
+			jo = JSONArray.fromObject(pl.getList(), jc);
 		try {
 			this.getResponse().getWriter().write(jo.toString());
 		} catch (Exception e) {

@@ -25,7 +25,6 @@ public class site implements Serializable{
 	
 	private String region_name;
 	
-	
 
 	public String getRegion_name() {
 		return region_name;

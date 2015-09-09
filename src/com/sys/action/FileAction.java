@@ -45,7 +45,7 @@ public class FileAction extends BaseAction {
                 logger.info(fileFileName + "文件上传完毕！");
                 String url = getBaseUrl() + "upload/" + fileFileName;
                 String json = "{\"fileName\":\""+ dFileName +"\",\"url\":\""+ url +"\"}";
-                this.outHtml(codeJson(SCODE, json));
+                this.outJson(codeJson(SCODE, json));
             } catch (Exception e) {
                 e.printStackTrace();
         }
