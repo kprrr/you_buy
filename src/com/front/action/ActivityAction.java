@@ -14,6 +14,7 @@ import com.front.model.activity;
 import com.front.model.wxuser;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sys.model.site;
+import com.util.Distance;
 
 
 
@@ -269,10 +270,25 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 ////	}
 //	
 //	
-	public void add() {
+	public void toAdd() {
 		wxuser wxuser = (com.front.model.wxuser) session.get("wxuser");
 		site sites = new site();
+		site nearestSite = new site();
 		List<site> sitesList = serviceDao.getList(sites, sites.sqlSelect(sites));
+		for(int i=0;i<sitesList.size();i++) {
+			site site = sitesList.get(i);
+			site.setDistance(Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
+					Double.valueOf(wxuser.getWxuser_latitude()),
+					Double.valueOf(site.getLongitude()),
+					Double.valueOf(site.getLatitude())));
+			if(nearestSite.getId() != null) {
+				if(site.getDistance() <=nearestSite.getDistance()) {
+					nearestSite = site;
+				}
+			}else {
+				nearestSite = site;
+			}
+		}
 	}
 
 }
