@@ -2,15 +2,19 @@ package com.front.model;
 
 import java.io.Serializable;
 
+import com.sys.model.site;
+import com.test.Person;
+
 /**
  * activity
  * @author lxj
  *
  */
-public class activity implements Serializable{
-
+public class activity implements Serializable,Comparable<activity>{
+	
 	private String id;//
 	private Integer activity_type;//
+	private Integer isotherpay;
 	private String activity_name;//
 	private String activity_longitude;//
 	private String acitivity_latitude;//
@@ -21,12 +25,100 @@ public class activity implements Serializable{
 	private Integer lasttime;//
 	private String deadline;//
 	private Integer limit_num;//
+	private Integer signed_num;
 	private String create_userid;//
-	private Integer activity_status;//
+	private Integer activity_status;//活动当前状态 0-未开始 1-进行中 2-已结束
 	private Integer shared_times;//
 	private String createtime;//
 	private Integer isdelete;//
+	
+	private site site;
+	private wxuser wxuser;
+	private String wxuserId;
+	private String nickname;//
+	private String photo;//
+	private Integer sex;//
+	private Double distance;
+	private int pageNum;
+	private int pageSize;
+	
+	
+	@Override
+	public int compareTo(activity arg0) {
+		return this.getDistance().compareTo(arg0.getDistance());
+	}
 
+
+	public Double getDistance() {
+		return distance;
+	}
+
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
+	}
+
+
+	public String getWxuserId() {
+		return wxuserId;
+	}
+	public void setWxuserId(String wxuserId) {
+		this.wxuserId = wxuserId;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
+	public Integer getIsotherpay() {
+		return isotherpay;
+	}
+	public void setIsotherpay(Integer isotherpay) {
+		this.isotherpay = isotherpay;
+	}
+	public int getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(int pageNum) {
+		this.pageNum = pageNum;
+	}
+	public int getPageSize() {
+		return pageSize;
+	}
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+	public Integer getSigned_num() {
+		return signed_num;
+	}
+	public void setSigned_num(Integer signed_num) {
+		this.signed_num = signed_num;
+	}
+	public wxuser getWxuser() {
+		return wxuser;
+	}
+	public void setWxuser(wxuser wxuser) {
+		this.wxuser = wxuser;
+	}
+	public site getSite() {
+		return site;
+	}
+	public void setSite(site site) {
+		this.site = site;
+	}
 	public String getId() {
 		return id;
 	}
@@ -156,6 +248,15 @@ public class activity implements Serializable{
 		
 		return sql.toString();
 	}
+	
+	public String sqlSelectWithWxuser(activity activity) {
+		StringBuffer sql = new StringBuffer();
+		sql.append("SELECT a.*,u.id as wxuserId,u.nickname,u.photo,u.sex from activity a LEFT JOIN wxuser u ON a.create_userid=u.id");
+		
+		
+		return sql.toString();
+	}
+	
 	
 	//生成修改语句
 	public String sqlUpdate(activity activity){

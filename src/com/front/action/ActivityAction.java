@@ -9,9 +9,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.base.BaseAction;
+import com.base.Common;
+import com.base.PageList;
 import com.base.ServiceDao;
 import com.front.model.activity;
 import com.front.model.wxuser;
+import com.front.service.ActivityService;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sys.model.site;
 import com.util.Distance;
@@ -27,9 +30,9 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		return activity;
 	}
 	
-//	@Autowired
-//	@Resource
-//	public Property property;
+	@Autowired
+	@Resource
+	public ActivityService activityService;
 
 	@Autowired
 	@Resource
@@ -270,6 +273,16 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 ////	}
 //	
 //	
+	
+	public void queryAll() {
+		wxuser wxuser = (com.front.model.wxuser) session.get("wxuser");
+		PageList list = activityService.queryAll(activity,wxuser);
+		this.outJson(list);
+	}	
+	
+	/**
+	 * 到发起约战页，筛选出最近的场馆信息
+	 */
 	public void toAdd() {
 		wxuser wxuser = (com.front.model.wxuser) session.get("wxuser");
 		site sites = new site();
@@ -289,6 +302,18 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 				nearestSite = site;
 			}
 		}
+		this.outJson(nearestSite);
 	}
 
+	public void addActivity() {
+		wxuser wxuser = (com.front.model.wxuser) session.get("wxuser");
+		site site = activity.getSite();
+		String mess = "";
+		if(site.getId() != null && !"".equals(site.getId())) {
+			mess = activityService.addActivity(site,activity,wxuser);
+		}else {
+			mess = activityService.addActivity(activity,wxuser);
+		}
+	}
+	
 }
