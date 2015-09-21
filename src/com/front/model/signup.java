@@ -12,6 +12,7 @@ public class signup implements Serializable{
 	private String id;//
 	private String activity_id;//
 	private String user_id;//
+	private Integer isotherpay;
 	private String site_name;//
 	private String site_address;//
 	private Integer distance;//
@@ -20,6 +21,14 @@ public class signup implements Serializable{
 	private String createtime;//
 	private Integer isdelete;//
 
+	
+	
+	public Integer getIsotherpay() {
+		return isotherpay;
+	}
+	public void setIsotherpay(Integer isotherpay) {
+		this.isotherpay = isotherpay;
+	}
 	public String getId() {
 		return id;
 	}
@@ -85,9 +94,9 @@ public class signup implements Serializable{
 	public String sqlInsert(){
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into signup ");
-		sql.append("(id, activity_id, user_id, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete) ");
+		sql.append("(id, activity_id, user_id,isotherpay, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete) ");
 		sql.append("values ");
-		sql.append("(:id, :activity_id, :user_id, :site_name, :site_address, :distance, :activity_starttime, :signup_num, :createtime, :isdelete) ");
+		sql.append("(:id, :activity_id, :user_id, :isotherpay,:site_name, :site_address, :distance, :activity_starttime, :signup_num, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	
@@ -101,9 +110,9 @@ public class signup implements Serializable{
 	//生成查询语句
 	public String sqlSelect(signup signup){
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, activity_id, user_id, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete ");
-		sql.append("from signup where 1 = 1 ");
-		
+//		sql.append("select id, activity_id, user_id, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete ");
+//		sql.append("from signup where 1 = 1 ");
+		sql.append("SELECT c.*,u.nickname,u.sex,u.photo from signup c,wxuser u where u.id=c.user_id and c.user_id  = :user_id ");
 		
 		return sql.toString();
 	}

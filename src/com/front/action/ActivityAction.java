@@ -13,6 +13,8 @@ import com.base.Common;
 import com.base.PageList;
 import com.base.ServiceDao;
 import com.front.model.activity;
+import com.front.model.collects;
+import com.front.model.signup;
 import com.front.model.wxuser;
 import com.front.service.ActivityService;
 import com.opensymphony.xwork2.ModelDriven;
@@ -316,4 +318,55 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		}
 	}
 	
+	
+	/**
+	 * 分享
+	 */
+	public void shareActivity() {
+		synchronized (activity) {
+			try {
+				this.outJson(serviceDao.updateObject(activity, activity.sqlUpdateWithAddShare(activity)));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	 
+	/**
+	 * 收藏活动
+	 */
+	public void collectActivity() {
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		String mess = activityService.collectActivity(activity,wxuser);
+		this.outJson(mess);
+	}
+	
+	/**
+	 * 我的收藏查询
+	 */
+	public void queryCollects() {
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		List<collects> list = activityService.queryCollects(wxuser);
+		this.outJson(list);
+	}
+	
+	/**
+	 * 参与活动
+	 */
+	public void signUp() {
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		String mess = activityService.signUpActivity(activity,wxuser);
+		this.outJson(mess);
+	}	
+	
+	/**
+	 * 我参与的活动查询
+	 */
+	public void querySigns() {
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		List<signup> list = activityService.querySigns(wxuser);
+		this.outJson(list);
+	}
 }

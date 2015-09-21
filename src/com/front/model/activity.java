@@ -313,8 +313,18 @@ public class activity implements Serializable,Comparable<activity>{
 			sql.append(",isdelete = :isdelete");
 		}
 		
-		
 		return sql.toString();
 	}
-
+	//生成修改语句
+		public String sqlUpdateWithAddShare(activity activity){
+			StringBuffer sql = new StringBuffer();
+			sql.append("update activity ");
+			
+			sql.append("set id = :id");
+			if(activity.getShared_times()!=null){
+				sql.append(",shared_times = :shared_times+1");
+			}
+			sql.append(" where id = :id");
+			return sql.toString();
+		}
 }

@@ -13,6 +13,8 @@ import com.base.JdbcDao;
 import com.base.PageList;
 import com.base.ServiceDao;
 import com.front.model.activity;
+import com.front.model.collects;
+import com.front.model.signup;
 import com.front.model.wxuser;
 import com.sys.model.site;
 import com.util.Distance;
@@ -90,5 +92,77 @@ public class ActivityService extends BaseService{
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public String collectActivity(activity activity,wxuser wxuser) {
+		// TODO Auto-generated method stub
+		activity = (activity) serviceDao.getList(activity, activity.sqlSelect(activity)).get(0);
+		collects myCollect = new collects();
+		myCollect.setId(JdbcDao.createKey());
+		myCollect.setUser_id(wxuser.getId());
+		myCollect.setActivity_id(activity.getId());
+		myCollect.setIsotherpay(activity.getIsotherpay());
+		myCollect.setSite_name(activity.getSite_name());
+		myCollect.setSite_address(activity.getSite_address());
+		myCollect.setDistance((int)Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
+					Double.valueOf(wxuser.getWxuser_latitude()),
+					Double.valueOf(activity.getActivity_longitude()),
+					Double.valueOf(activity.getAcitivity_latitude())));
+		myCollect.setActivity_starttime(activity.getStarttime());
+		myCollect.setSignup_num(activity.getSigned_num());
+		myCollect.setIsdelete(1);
+		
+		try {
+			String mess = serviceDao.addObject(myCollect, myCollect.sqlInsert());
+			return mess;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<collects> queryCollects(wxuser wxuser) {
+		// TODO Auto-generated method stub
+		collects myCollect = new collects();
+		myCollect.setUser_id(wxuser.getId());
+		List<collects> list = serviceDao.getList(myCollect, myCollect.sqlSelect(myCollect));
+		return list;
+	}
+
+	public String signUpActivity(activity activity, wxuser wxuser) {
+		// TODO Auto-generated method stub
+		activity = (activity) serviceDao.getList(activity, activity.sqlSelect(activity)).get(0);
+		signup mySign = new signup();
+		mySign.setId(JdbcDao.createKey());
+		mySign.setUser_id(wxuser.getId());
+		mySign.setActivity_id(activity.getId());
+		mySign.setIsotherpay(activity.getIsotherpay());
+		mySign.setSite_name(activity.getSite_name());
+		mySign.setSite_address(activity.getSite_address());
+		mySign.setDistance((int)Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
+					Double.valueOf(wxuser.getWxuser_latitude()),
+					Double.valueOf(activity.getActivity_longitude()),
+					Double.valueOf(activity.getAcitivity_latitude())));
+		mySign.setActivity_starttime(activity.getStarttime());
+		mySign.setSignup_num(activity.getSigned_num());
+		mySign.setIsdelete(1);
+		
+		try {
+			String mess = serviceDao.addObject(mySign, mySign.sqlInsert());
+			return mess;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<signup> querySigns(wxuser wxuser) {
+		// TODO Auto-generated method stub
+		signup mySign = new signup();
+		mySign.setUser_id(wxuser.getId());
+		List<signup> list = serviceDao.getList(mySign, mySign.sqlSelect(mySign));
+		return list;
 	}
 }
