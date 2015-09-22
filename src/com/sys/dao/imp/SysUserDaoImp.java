@@ -47,8 +47,8 @@ public class SysUserDaoImp extends JdbcDao implements SysUserDao {
         } else {
             list = this.selectSql(sql.toString(), sysUser);
         }
-        pl.setRows(list);
-        pl.setTotal(counts);
+        pl.setList(list);
+        pl.setCounts(counts);
         return pl;
     }
 

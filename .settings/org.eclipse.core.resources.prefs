@@ -1,3 +1,7 @@
 eclipse.preferences.version=1
 encoding//WebContent/css/sys/allExecute.css=UTF-8
+encoding//src/com/base/BaseAction.java=UTF-8
+encoding//src/com/base/BaseService.java=UTF-8
+encoding//src/com/front/action/ActivityAction.java=UTF-8
+encoding//src/com/front/action/CommentAction.java=UTF-8
 encoding/<project>=UTF-8

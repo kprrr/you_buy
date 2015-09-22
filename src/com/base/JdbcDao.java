@@ -89,7 +89,7 @@ public class JdbcDao extends SimpleJdbcDaoSupport {
 		PageList pl = new PageList();
 		String sql = modelImp.sqlSelect(modelImp);
 		int counts = this.getCount(sql, modelImp);
-		pl.setTotal(counts);
+		pl.setCounts(counts);
 		List list;
 		if (pageSize != null) {
 			pageNo = pageNo == null ? "1" : pageNo;
@@ -99,7 +99,7 @@ public class JdbcDao extends SimpleJdbcDaoSupport {
 		} else {
 			list = this.selectSql(sql, modelImp);
 		}
-		pl.setRows(list);
+		pl.setList(list);
 		return pl;
 	}
 

@@ -24,7 +24,7 @@ public class ServerDaoImp extends JdbcDao implements ServerDao {
 			PageList pl = new PageList();
 			String sql = model.sqlSelect(model);
 			int counts = this.getCount(sql, model);
-			pl.setTotal(counts);
+			pl.setCounts(counts);
 			List<ServerModel> list;
 			if (model.getRows() != null && model.getPage() != null) {
 				list = this.selectSql(sql, model, model.getRows().toString(),
@@ -35,8 +35,8 @@ public class ServerDaoImp extends JdbcDao implements ServerDao {
 			} else {
 				list = this.selectSql(sql, model);
 			}
-			pl.setRows(list);
-			pl.setRemoves(model.getRemoveItem());
+			pl.setList(list);
+			//pl.setRemoves(model.getRemoveItem());
 			reuslt = pl;
 			break;
 		case insert:

@@ -32,18 +32,13 @@ import org.slf4j.LoggerFactory;
  * 
  */
 @SuppressWarnings("serial")
-public class BaseAction extends ActionSupport implements SessionAware {
+public class BaseService implements SessionAware {
 
 	
-	protected String FORWARD = "forwardJsp";          //页面跳转   
-	protected String ACTION = "action";		          //请求跳转   
 	protected String REDIRECT = "redirect";	          //重定向    
 	protected int SCODE = 1;// 成功
 	protected int ECODE = 0;// 成功
 	
-	protected String forwardJsp = null;
-	protected String actionName = null;
-	protected String redirectName = null;
 	
 	public String pageSize;
 	public String pageNo;
@@ -94,39 +89,7 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	}
 	
 	
-	public String getRedirectName() {
-		return redirectName;
-	}
 
-	public void setRedirectName(String redirectName) {
-		this.redirectName = redirectName;
-	}
-
-	public String getActionName() {
-		return actionName;
-	}
-
-	public void setActionName(String actionName) {
-		this.actionName = actionName;
-	}
-
-	public String getForwardJsp() {
-		return forwardJsp;
-	}
-
-	public void setForwardJsp(String forwardJsp) {
-		this.forwardJsp = forwardJsp;
-	}
-
-	public void setWIJsp(String forwardJsp) {
-		String temp = "/WEB-INF/page/" + forwardJsp + ".jsp";
-		this.setForwardJsp(temp);
-	}
-
-	public void successJsp(String action) {
-		this.setAttribute("action", action);
-		this.setForwardJsp("success.jsp");
-	}
 
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	@SuppressWarnings("unchecked")
@@ -136,7 +99,7 @@ public class BaseAction extends ActionSupport implements SessionAware {
 	@SuppressWarnings("unused")
 	private static final String ACTION_ERRORS = "actionErrors";
 
-	public BaseAction() {
+	public BaseService() {
 	}
 
 	protected HttpServletRequest getRequest() {
@@ -198,24 +161,6 @@ public class BaseAction extends ActionSupport implements SessionAware {
 		String temp = "{\"code\":\"" + code + "\",\"mess\":" + json + "}";// json 格式
 		return temp;
 	}
-	
-	@SuppressWarnings("unchecked")
-	public void addActionError(String error) {
-		super.addActionError(error);
-		session.put("actionErrors", super.getActionErrors());
-	}
-
-	@SuppressWarnings("unchecked")
-	public void addActionMessage(String message) {
-		super.addActionMessage(message);
-		session.put("actionMessages", super.getActionMessages());
-	}
-
-	public void clearErrorsAndMessages() {
-		clearErrors();
-		clearMessages();
-		super.clearErrorsAndMessages();
-	}
 
 	public void clearErrors() {
 		session.remove("actionErrors");
@@ -225,36 +170,12 @@ public class BaseAction extends ActionSupport implements SessionAware {
 		session.remove("actionMessages");
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public Collection getActionErrors() {
-		Collection errors = super.getActionErrors();
-		if (errors.isEmpty()) {
-			errors = (Collection) session.get("actionErrors");
-			if (!errors.isEmpty()) {
-				super.setActionErrors(errors);
-				clearErrors();
-			}
-		}
-		return errors;
-	}
 
 	public String getWorkPath() {
 		return this.getRequest().getSession().getServletContext().getRealPath(
 				"");
 	}
 
-	@SuppressWarnings("unchecked")
-	public Collection getActionMessages() {
-		Collection messages = super.getActionMessages();
-		if (messages.isEmpty()) {
-			messages = (Collection) session.get("actionMessages");
-			if (!messages.isEmpty()) {
-				super.setActionMessages(messages);
-				clearMessages();
-			}
-		}
-		return messages;
-	}
 
 	@SuppressWarnings("unchecked")
 	public void setSession(Map session) {
@@ -422,4 +343,5 @@ public class BaseAction extends ActionSupport implements SessionAware {
 			e.printStackTrace();
 		}
 	}
+	
 }

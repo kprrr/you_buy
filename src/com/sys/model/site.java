@@ -25,8 +25,15 @@ public class site implements Serializable{
 	
 	private String region_name;
 	
+	private double distance;
 	
 
+	public double getDistance() {
+		return distance;
+	}
+	public void setDistance(double distance) {
+		this.distance = distance;
+	}
 	public String getRegion_name() {
 		return region_name;
 	}
