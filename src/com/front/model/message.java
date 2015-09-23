@@ -11,9 +11,10 @@ public class message implements Serializable{
 
 	private String id;//
 	private String sender_id;//
+	private String sender_photo;
 	private String receiver_id;//
+	private String receiver_photo;
 	private String content;//
-	private Integer issystem;//
 	private String createtime;//
 	private Integer isdelete;//
 
@@ -41,11 +42,18 @@ public class message implements Serializable{
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public Integer getIssystem() {
-		return issystem;
+	
+	public String getSender_photo() {
+		return sender_photo;
 	}
-	public void setIssystem(Integer issystem) {
-		this.issystem = issystem;
+	public void setSender_photo(String sender_photo) {
+		this.sender_photo = sender_photo;
+	}
+	public String getReceiver_photo() {
+		return receiver_photo;
+	}
+	public void setReceiver_photo(String receiver_photo) {
+		this.receiver_photo = receiver_photo;
 	}
 	public String getCreatetime() {
 		return createtime;
@@ -66,7 +74,7 @@ public class message implements Serializable{
 		sql.append("insert into message ");
 		sql.append("(id, sender_id, receiver_id, content, issystem, createtime, isdelete) ");
 		sql.append("values ");
-		sql.append("(:id, :sender_id, :receiver_id, :content, :issystem, :createtime, :isdelete) ");
+		sql.append("(:id, :sender_id, :receiver_id, :content, :issystem, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	
@@ -101,9 +109,6 @@ public class message implements Serializable{
 		}
 		if(message.getContent()!=null&&message.getContent().length()>0){
 			sql.append(",content = :content");
-		}
-		if(message.getIssystem()!=null){
-			sql.append(",issystem = :issystem");
 		}
 		if(message.getCreatetime()!=null&&message.getCreatetime().length()>0){
 			sql.append(",createtime = :createtime");

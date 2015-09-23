@@ -11,25 +11,25 @@ import org.springframework.stereotype.Component;
 import com.base.BaseAction;
 import com.base.ServiceDao;
 import com.front.model.comments;
-import com.front.model.signup;
+import com.front.model.message;
 import com.front.model.wxuser;
-import com.front.service.CommentService;
+import com.front.service.MessageService;
 import com.opensymphony.xwork2.ModelDriven;
 
 
 
-@Component("commentAction")
+@Component("messageAction")
 @Scope("prototype")
-public class CommentAction extends BaseAction implements ModelDriven<comments>{
+public class MessageAction extends BaseAction implements ModelDriven<message>{
 	private static final long serialVersionUID = 1L;
-	comments comment = new comments();
-	public comments getModel() {
-		return comment;
+	message message = new message();
+	public message getModel() {
+		return message;
 	}
 	
 	@Autowired
 	@Resource
-	public CommentService commentService;
+	public MessageService messageService;
 
 	@Autowired
 	@Resource
@@ -38,20 +38,22 @@ public class CommentAction extends BaseAction implements ModelDriven<comments>{
 
 	
 	/**
-	 * 提交评论/回复
+	 * 发消息
+	 *  1.系统消息默认在初始化数据库时插入一条系统wxuser数据
+	 *  2.前台从页面上获得receiver的id和头像,sender的id和头像由session里的wxuser获得
 	 */
-	public void addComment() {
+	public void addMsg() {
 		wxuser wxuser = (wxuser) session.get("wxuser");
-		String mess = commentService.addComment(comment,wxuser);
+		String mess = messageService.addMsg(message,wxuser);
 		this.outJson(mess);
 	}	
 	
 	/**
 	 * 查询评论/回复
 	 */
-	public void queryComments() {
+	public void queryMsg() {
 		wxuser wxuser = (wxuser) session.get("wxuser");
-		List<comments> list = commentService.queryComments(comment,wxuser);
+		List<message> list = messageService.queryMsg(message,wxuser);
 		this.outJson(list);
 	}
 }

@@ -20,6 +20,10 @@ public class comments implements Serializable{
 	private String receiver_name;//
 	private String createtime;//
 	private Integer isdelete;//
+	
+	public static Integer IS_REPLY = 0;
+	public static Integer IS_NOT_REPLY = 1;
+	
 
 	public String getId() {
 		return id;
@@ -110,7 +114,9 @@ public class comments implements Serializable{
 		StringBuffer sql = new StringBuffer();
 		sql.append("select id, activity_id, commentator_id, commentator_name, commentator_photo, content, isreply, recevier_id, receiver_name, createtime, isdelete ");
 		sql.append("from comments where 1 = 1 ");
-		
+		if(comments.getCommentator_id()!=null&&comments.getCommentator_id().length()>0){
+			sql.append(" and commentator_id = :commentator_id");
+		}
 		
 		return sql.toString();
 	}
