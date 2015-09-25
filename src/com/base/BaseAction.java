@@ -321,6 +321,55 @@ public class BaseAction extends ActionSupport implements SessionAware {
 		}
 	}
 	
+	public void outJsonSuccess(Object o){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		JsonConfig jc = new JsonConfig();
+		jc.setJsonPropertyFilter(new PropertyFilter() {
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				boolean r = false;
+					r = r ||
+					arg1.equals("pass_word")||
+					arg1.equals("f_ids")||
+					arg1.equals("role")||
+					arg1.equals("ward")||
+					arg1.equals("content");				//添加需要删除的字段
+				
+				return r;
+			}
+		});
+		JSONObject js = JSONObject.fromObject(o,jc);
+		try {
+			this.getResponse().getWriter().write("{\"code\":\"1\",\"data\":" + js.toString()+"}" );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public void outJsonFail(Object o){
+		this.getResponse().setContentType("text/html;charset=UTF-8");
+		JsonConfig jc = new JsonConfig();
+		jc.setJsonPropertyFilter(new PropertyFilter() {
+			public boolean apply(Object arg0, String arg1, Object arg2) {
+				boolean r = false;
+					r = r ||
+					arg1.equals("pass_word")||
+					arg1.equals("f_ids")||
+					arg1.equals("role")||
+					arg1.equals("ward")||
+					arg1.equals("content");				//添加需要删除的字段
+				
+				return r;
+			}
+		});
+		JSONObject js = JSONObject.fromObject(o,jc);
+		try {
+			this.getResponse().getWriter().write("{\"code\":\"0\",\"data\":" + js.toString()+"}" );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void outJson(Object o){
 		this.getResponse().setContentType("text/html;charset=UTF-8");
 		JsonConfig jc = new JsonConfig();

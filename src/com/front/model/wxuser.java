@@ -115,7 +115,7 @@ public class wxuser implements Serializable{
 		sql.append("insert into wxuser ");
 		sql.append("(id, wxId, nickname, photo, sex, age, registtime, wxuser_address, signature, tel, createtime, isdelete) ");
 		sql.append("values ");
-		sql.append("(:id, :wxId, :nickname, :photo, :sex, :age, :registtime, :wxuser_address, :signature, :tel, :createtime, :isdelete) ");
+		sql.append("(:id, :wxId, :nickname, :photo, :sex, :age, CURRENT_TIMESTAMP, :wxuser_address, :signature, :tel, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	
@@ -131,7 +131,9 @@ public class wxuser implements Serializable{
 		StringBuffer sql = new StringBuffer();
 		sql.append("select id, wxId, nickname, photo, sex, age, registtime, wxuser_address, signature, tel, createtime, isdelete ");
 		sql.append("from wxuser where 1 = 1 ");
-		
+		if(wxuser.getId()!=null&&wxuser.getId().length()>0){
+			sql.append(" and id = :id");
+		}
 		
 		return sql.toString();
 	}
@@ -175,7 +177,7 @@ public class wxuser implements Serializable{
 		if(wxuser.getIsdelete()!=null){
 			sql.append(",isdelete = :isdelete");
 		}
-		
+		sql.append(" where id = :id");
 		
 		return sql.toString();
 	}

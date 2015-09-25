@@ -1,0 +1,57 @@
+package com.front.action;
+
+import java.util.List;
+
+import javax.annotation.Resource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.base.BaseAction;
+import com.base.ServiceDao;
+import com.front.model.message;
+import com.front.model.wxuser;
+import com.front.service.UserService;
+import com.opensymphony.xwork2.ModelDriven;
+
+
+
+@Component("messageAction")
+@Scope("prototype")
+public class UserAction extends BaseAction implements ModelDriven<wxuser>{
+	private static final long serialVersionUID = 1L;
+	wxuser wxuser = new wxuser();
+	public wxuser getModel() {
+		return wxuser;
+	}
+	
+	@Autowired
+	@Resource
+	public UserService userService;
+
+	@Autowired
+	@Resource
+	public ServiceDao serviceDao;
+	
+
+	
+	/**
+	 * 
+	 */
+	public void queryWxuser() {
+		wxuser = (wxuser) session.get("wxuser");
+		wxuser = userService.queryWxuser(wxuser);
+		if(wxuser != null) {
+			this.outJsonSuccess(wxuser);
+		}else {
+			this.outJsonFail(wxuser);
+		}
+	}
+	
+	public void updateWxuser() {
+		String mess = userService.updateWxuser(wxuser);
+		this.outJson(mess);
+	}
+	
+}

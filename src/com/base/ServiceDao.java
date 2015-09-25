@@ -1,16 +1,20 @@
 package com.base;
 
 import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.DecimalFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-
-import net.sf.json.JSONObject;
 
 import org.hibernate.jdbc.util.FormatStyle;
 import org.springframework.context.annotation.Scope;
@@ -25,6 +29,8 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionCallback;
 import org.springframework.transaction.support.TransactionTemplate;
+
+import net.sf.json.JSONObject;
 
 
 
@@ -546,6 +552,85 @@ public class ServiceDao extends SimpleJdbcDaoSupport {
 //		System.out.println(result);
 		return (String)result;
 	}
+	
+	private static SecureRandom mySecureRand;
+	private static Random myRand;
+	private static String s_id;
+	public static String valueBeforeMD5 = "";
+	public static String valueAfterMD5 = "";
+	private static final int PAD_BELOW = 0x10;
+	private static final int TWO_BYTES = 0xFF;
+	static {
+		mySecureRand = new SecureRandom();
+		long secureInitializer = mySecureRand.nextLong();
+		myRand = new Random(secureInitializer);
+		try {
+			s_id = InetAddress.getLocalHost().toString();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public static String createKey() {
+		boolean secure = true;
+		MessageDigest md5 = null;
+		StringBuffer sbValueBeforeMD5 = new StringBuffer(128);
+
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println(e);
+		}
+
+		try {
+			long time = System.currentTimeMillis();
+			long rand = 0;
+
+			if (secure) {
+				rand = mySecureRand.nextLong();
+			} else {
+				rand = myRand.nextLong();
+			}
+			sbValueBeforeMD5.append(s_id);
+			sbValueBeforeMD5.append(":");
+			sbValueBeforeMD5.append(Long.toString(time));
+			sbValueBeforeMD5.append(":");
+			sbValueBeforeMD5.append(Long.toString(rand));
+
+			valueBeforeMD5 = sbValueBeforeMD5.toString();
+			md5.update(valueBeforeMD5.getBytes());
+
+			byte[] array = md5.digest();
+			StringBuffer sb = new StringBuffer(32);
+			for (int j = 0; j < array.length; ++j) {
+				int b = array[j] & TWO_BYTES;
+				if (b < PAD_BELOW)
+					sb.append('0');
+				sb.append(Integer.toHexString(b));
+			}
+
+			valueAfterMD5 = sb.toString();
+
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		String raw = valueAfterMD5.toUpperCase();
+		StringBuffer sb2 = new StringBuffer(64);
+		sb2.append(raw.substring(0, 8));
+		// sb2.append("-");
+		sb2.append(raw.substring(8, 12));
+		// sb2.append("-");
+		sb2.append(raw.substring(12, 16));
+		// sb2.append("-");
+		sb2.append(raw.substring(16, 20));
+		// sb2.append("-");
+		sb2.append(raw.substring(20));
+		String temp = sb2.toString();
+		temp = temp.toLowerCase();// 转换成小写
+		return temp;
+	}
+	
 	public static void main(String[] args) {
 //		WxUser r = new WxUser();
 //		Class classType = r.getClass();
