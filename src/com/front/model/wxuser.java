@@ -134,7 +134,9 @@ public class wxuser implements Serializable{
 		if(wxuser.getId()!=null&&wxuser.getId().length()>0){
 			sql.append(" and id = :id");
 		}
-		
+		if(wxuser.getWxId()!=null&&wxuser.getWxId().length()>0){
+			sql.append(" and wxId = :wxId");
+		}
 		return sql.toString();
 	}
 	

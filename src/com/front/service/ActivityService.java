@@ -2,12 +2,17 @@ package com.front.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.base.BaseAction;
 import com.base.BaseService;
+import com.base.Common;
 import com.base.Constant;
 import com.base.JdbcDao;
 import com.base.PageList;
@@ -16,8 +21,12 @@ import com.front.model.activity;
 import com.front.model.collects;
 import com.front.model.signup;
 import com.front.model.wxuser;
+import com.juxinbox.model.AccessToken;
+import com.juxinbox.sdk.JuxinBoxSdk;
+import com.juxinbox.sdk.WeiXinSdk;
 import com.sys.model.site;
 import com.util.Distance;
+import com.util.Property;
 import com.util.TimeUtil;
 
 public class ActivityService extends BaseService{
@@ -25,6 +34,55 @@ public class ActivityService extends BaseService{
 	@Autowired
 	@Resource
 	public ServiceDao serviceDao;
+	
+	@Autowired
+	@Resource
+	public Property property;
+	public void tran(HttpServletRequest request,HttpServletResponse response,BaseAction action,String redirectUrl,Map<String, Object> map) {
+		property.setRealPath(action.getFilePath());
+		WeiXinSdk sdk=new WeiXinSdk(request, response, Common.AppId,Common.AppSecret);
+		String url = action.getBaseUrl()+redirectUrl;
+		if(map != null &&map.size()>0) {
+			url = url + "?";
+			 for (String key : map.keySet()) {
+				   //System.out.println("key= "+ key + " and value= " + map.get(key));
+				   url = url + key+"="+ map.get(key) +"&";
+				  }
+			 url = url.substring(0, url.length()-1);
+		}
+		
+		sdk.sendCodeRequest(url, com.juxinbox.tool.Scope.snsapi_base,"1");
+	}
+	
+	public wxuser redirectUrl(HttpServletRequest request,
+			HttpServletResponse response, wxuser wxuser,Map session) throws Exception{
+		WeiXinSdk sdk = new WeiXinSdk(Common.AppId,Common.AppSecret);
+//		System.out.println("Appid:"+Common.AppId+";AppSerect:"+Common.AppSecret);
+//		System.out.println("Code=="+request.getParameter("code"));
+		AccessToken accessToken = sdk.getUserAccessToken(request.getParameter("code"));
+//		System.out.println("openId："+accessToken.getOpenid()+";unionid:"+accessToken.getUnionid());
+		//这里将openId改为unionId
+		String wxId=accessToken.getOpenid();
+		wxuser.setWxId(wxId);
+		try {
+			List<wxuser> userList = serviceDao.getList(wxuser, sqlSelectName);
+			if (userList.size() <= 0) {
+				wxuser = null;
+			} else {
+				wxuser = userList.get(0);
+				session.put("wxuser", wxuser);
+				
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return wxuser;
+		
+		 
+	}
+	
 	public String addActivity(site site,activity activity,wxuser wxuser) {
 		site = (com.sys.model.site) serviceDao.getList(site, site.sqlSelect(site)).get(0);
 		activity.setId(JdbcDao.createKey());

@@ -17,7 +17,7 @@ import com.opensymphony.xwork2.ModelDriven;
 
 
 
-@Component("messageAction")
+@Component("userAction")
 @Scope("prototype")
 public class UserAction extends BaseAction implements ModelDriven<wxuser>{
 	private static final long serialVersionUID = 1L;

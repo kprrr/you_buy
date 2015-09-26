@@ -10,15 +10,18 @@ import org.springframework.context.ApplicationListener;
 
 import com.base.Common;
 import com.sys.dao.RegionDao;
-import com.sys.dao.SiteDao;
 import com.sys.model.region;
-import com.sys.model.site;
+import com.util.Property;
 
 public class InitWorkData implements ApplicationListener {
 
 	 @Autowired
 	    @Resource
 	    public RegionDao regionDao;
+	 
+	 @Autowired
+		@Resource
+		public Property property;
 	
 	@Override
 	public void onApplicationEvent(ApplicationEvent arg0) {
@@ -29,6 +32,8 @@ public class InitWorkData implements ApplicationListener {
 		List list = this.regionDao.getRegion(new region());
 //		System.out.println("获取到数据："+list.size()+"条");
 		Common.regionList = list;
+		Common.AppId=property.getValueByKey("AppId");
+		Common.AppSecret=property.getValueByKey("AppSecret");
 	}
 
 }
