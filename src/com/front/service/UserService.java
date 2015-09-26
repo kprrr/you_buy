@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.base.BaseService;
 import com.base.JdbcDao;
@@ -15,6 +17,9 @@ import com.front.model.wxuser;
 import com.mysql.jdbc.JDBC4CallableStatement;
 import com.weixin.model.ws_mess;
 
+
+@Component("userService")
+@Scope("prototype")
 public class UserService extends BaseService{
 	
 	@Autowired

@@ -167,6 +167,9 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		this.outJson(nearestSite);
 	}
 
+	/**
+	 * activity-addActivity
+	 */
 	public void addActivity() {
 		wxuser wxuser = (wxuser) session.get("wxuser");
 		site site = activity.getSite();
@@ -176,6 +179,29 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		}else {
 			mess = activityService.addActivity(activity,wxuser);
 		}
+	}
+	
+	
+	/**
+	 * activity-addActivity_test
+	 */
+	public void addActivity_test() {
+		//32.1586610000,119.4281740000
+		wxuser wxuser = new wxuser();
+		wxuser = (wxuser) serviceDao.getList(wxuser, sqlSelectName).get(0);
+		session.put("wxuser", wxuser);
+		wxuser = (wxuser) session.get("wxuser");
+		site site = new site();
+		site = (site) serviceDao.getList(site, sqlSelectName).get(0);
+		activity.setSite(site);
+		//32.1607390000,119.4215630000
+		String mess = "";
+		if(site.getId() != null && !"".equals(site.getId())) {
+			mess = activityService.addActivity(site,activity,wxuser);
+		}else {
+			mess = activityService.addActivity(activity,wxuser);
+		}
+		this.outJson(mess);
 	}
 	
 	

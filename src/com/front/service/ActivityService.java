@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.base.BaseAction;
 import com.base.BaseService;
@@ -29,6 +31,8 @@ import com.util.Distance;
 import com.util.Property;
 import com.util.TimeUtil;
 
+@Component("activityService")
+@Scope("prototype")
 public class ActivityService extends BaseService{
 	
 	@Autowired
@@ -84,7 +88,7 @@ public class ActivityService extends BaseService{
 	}
 	
 	public String addActivity(site site,activity activity,wxuser wxuser) {
-		site = (com.sys.model.site) serviceDao.getList(site, site.sqlSelect(site)).get(0);
+		site = (com.sys.model.site) serviceDao.getList(site, sqlSelectName).get(0);
 		activity.setId(JdbcDao.createKey());
 		activity.setActivity_longitude(site.getLongitude());
 		activity.setAcitivity_latitude(site.getLatitude());

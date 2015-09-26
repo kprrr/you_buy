@@ -2,6 +2,7 @@ package com.weixin.action;
 
 import com.base.BaseAction;
 import com.base.ServiceDao;
+import com.front.service.UserService;
 import com.opensymphony.xwork2.ModelDriven;
 import com.weixin.dao.WeiXinServerDao;
 import com.weixin.model.ws_mess;
@@ -40,6 +41,10 @@ public class WeiXinServerAction extends BaseAction implements ModelDriven<ws_mes
 	@Resource
 	public ServiceDao serviceDao;
 	
+	
+	@Autowired
+	@Resource
+	public UserService userService;
 	//读取微信接口 wx-mess
 	public void mess(){
 		try {
@@ -52,7 +57,7 @@ public class WeiXinServerAction extends BaseAction implements ModelDriven<ws_mes
 					String urlName = this.getRequest().getRequestURI();
 					urlName = urlName.substring(urlName.lastIndexOf("/") + 3,urlName.length());
 					//logger.info("域名解析成功:" + urlName);
-					String outMess = weiXinServerDao.getMess(serviceDao,urlName, m);
+					String outMess = weiXinServerDao.getMess(userService,urlName, m);
 					this.outJson(outMess);
 				}
 				long endTime = new Date().getTime();

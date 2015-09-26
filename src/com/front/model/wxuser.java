@@ -19,21 +19,22 @@ public class wxuser implements Serializable{
 	private String wxuser_address;//
 	private String signature;//
 	private String tel;//
-	private float wxuser_longitude;
-	private float wxuser_latitude;
+	private String wxuser_longitude;
+	private String wxuser_latitude;
 	private String createtime;//
 	private Integer isdelete;//
 
-	public float getWxuser_longitude() {
+	 
+	public String getWxuser_longitude() {
 		return wxuser_longitude;
 	}
-	public void setWxuser_longitude(float wxuser_longitude) {
+	public void setWxuser_longitude(String wxuser_longitude) {
 		this.wxuser_longitude = wxuser_longitude;
 	}
-	public float getWxuser_latitude() {
+	public String getWxuser_latitude() {
 		return wxuser_latitude;
 	}
-	public void setWxuser_latitude(float wxuser_latitude) {
+	public void setWxuser_latitude(String wxuser_latitude) {
 		this.wxuser_latitude = wxuser_latitude;
 	}
 	public String getId() {
@@ -129,7 +130,7 @@ public class wxuser implements Serializable{
 	//生成查询语句
 	public String sqlSelect(wxuser wxuser){
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, wxId, nickname, photo, sex, age, registtime, wxuser_address, signature, tel, createtime, isdelete ");
+		sql.append("select id, wxId, nickname, photo, sex, age, registtime, wxuser_address, signature, tel,wxuser_longitude,wxuser_latitude, createtime, isdelete ");
 		sql.append("from wxuser where 1 = 1 ");
 		if(wxuser.getId()!=null&&wxuser.getId().length()>0){
 			sql.append(" and id = :id");

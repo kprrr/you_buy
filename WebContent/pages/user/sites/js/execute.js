@@ -68,7 +68,7 @@ function initView() {
 function initRegion() {
 	//初始化区域信息
 	$.post('site-getRegion',function(json){
-		if(json.code == 10000) {
+		if(json.code == 1) {
 			var data = json.data;
 			$('#region_id').combobox({
 				data : data,

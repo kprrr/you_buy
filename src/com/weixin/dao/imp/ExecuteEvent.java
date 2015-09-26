@@ -30,14 +30,12 @@ import net.sf.json.JSONObject;
 
 public class ExecuteEvent {
 	
-	@Autowired
-	@Resource
-	public UserService userService;
+	
 	
 	private wxuser wxuser;
 	
 	//开始处理
-	public String start(ServiceDao serviceDao,ws_mess mess){
+	public String start(UserService userService,ws_mess mess){
 		String outMess = "";
 		//判断是取消还是关注
 		String type = mess.getEvent();
@@ -46,16 +44,14 @@ public class ExecuteEvent {
 			wxuser  = new wxuser();
 			WeiXinSdk sdk = new WeiXinSdk(Common.AppId, Common.AppSecret);
 			WxUserInfo wxUserInfo = sdk.getUserInfo(mess.getFromUserName());
-			wxuser.setId(ServiceDao.createKey());
 			wxuser.setWxId(mess.getFromUserName());
 			wxuser.setNickname(wxUserInfo.getNickname());
 			wxuser.setPhoto(wxUserInfo.getHeadimgurl());
 			wxuser.setSex(Integer.valueOf(wxUserInfo.getSex()));
-			wxuser.setWxuser_longitude(Float.valueOf(mess.getLocation_X()));
-			wxuser.setWxuser_latitude(Float.valueOf(mess.getLocation_Y()));
-			wxuser.setIsdelete(1);
+			wxuser.setWxuser_longitude(mess.getLocation_X());
+			wxuser.setWxuser_latitude(mess.getLocation_Y());
 			try {
-				outMess=serviceDao.addObject(wxuser, wxuser.sqlInsert());
+				outMess=userService.addWxuser(wxuser);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

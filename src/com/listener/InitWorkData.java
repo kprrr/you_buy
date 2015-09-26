@@ -22,6 +22,7 @@ public class InitWorkData implements ApplicationListener {
 	 @Autowired
 		@Resource
 		public Property property;
+	 
 	
 	@Override
 	public void onApplicationEvent(ApplicationEvent arg0) {
@@ -32,8 +33,9 @@ public class InitWorkData implements ApplicationListener {
 		List list = this.regionDao.getRegion(new region());
 //		System.out.println("获取到数据："+list.size()+"条");
 		Common.regionList = list;
-		Common.AppId=property.getValueByKey("AppId");
-		Common.AppSecret=property.getValueByKey("AppSecret");
+		property.setRealPath(this.getClass().getResource("/").getPath());
+		Common.AppId=property.getValueByKey_temp("AppId");
+		Common.AppSecret=property.getValueByKey_temp("AppSecret");
 	}
 
 }

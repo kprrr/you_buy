@@ -30,22 +30,19 @@ import net.sf.json.JSONObject;
 
 public class ExecuteLocation {
 	
-	@Autowired
-	@Resource
-	public UserService userService;
 	
 	private wxuser wxuser;
 	
 	//开始处理
-	public String start(ServiceDao serviceDao,ws_mess mess){
+	public String start(UserService userService,ws_mess mess){
 		String outMess = "";
 			outMess = WeiXinXml.text(mess, "欢迎关注!");
 			wxuser  = new wxuser();
 			wxuser.setWxId(mess.getFromUserName());
-			wxuser.setWxuser_latitude(Float.valueOf(mess.getLocation_X()));
-			wxuser.setWxuser_longitude(Float.valueOf(mess.getLocation_Y()));;
+			wxuser.setWxuser_latitude(mess.getLocation_X());
+			wxuser.setWxuser_longitude(mess.getLocation_Y());;
 			try {
-				outMess=serviceDao.updateObject(wxuser, wxuser.sqlUpdate(wxuser));
+				outMess=userService.updateWxuser(wxuser);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

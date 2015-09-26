@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component("property")
 public class Property {
 	public final String MESSAGE_FILE = "/WEB-INF/classes/config.properties";// 属性文件
-	public final String MESSAGE_FILE_temp = "/config.properties";// 属性文件
+	public String MESSAGE_FILE_temp = "config.properties";// 属性文件
 	private String realPath = null;
 
 	public String getRealPath() {

@@ -5,6 +5,8 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 import com.base.BaseService;
 import com.base.JdbcDao;
@@ -13,6 +15,9 @@ import com.front.model.comments;
 import com.front.model.message;
 import com.front.model.wxuser;
 
+
+@Component("messageService")
+@Scope("prototype")
 public class MessageService extends BaseService{
 	
 	@Autowired

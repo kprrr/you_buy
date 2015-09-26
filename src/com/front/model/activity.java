@@ -228,7 +228,7 @@ public class activity implements Serializable,Comparable<activity>{
 		sql.append("insert into activity ");
 		sql.append("(id, activity_type, activity_name, activity_longitude, acitivity_latitude, site_city, site_name, site_address, starttime, lasttime, deadline, limit_num, create_userid, activity_status, shared_times, createtime, isdelete) ");
 		sql.append("values ");
-		sql.append("(:id, :activity_type, :activity_name, :activity_longitude, :acitivity_latitude, :site_city, :site_name, :site_address, :starttime, :lasttime, :deadline, :limit_num, :create_userid, :activity_status, :shared_times, :createtime, :isdelete) ");
+		sql.append("(:id, :activity_type, :activity_name, :activity_longitude, :acitivity_latitude, :site_city, :site_name, :site_address, :starttime, :lasttime, :deadline, :limit_num, :create_userid, :activity_status, :shared_times, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	
