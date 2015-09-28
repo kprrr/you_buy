@@ -38,6 +38,8 @@ public class CommentAction extends BaseAction implements ModelDriven<comments>{
 
 	
 	/**
+	 * 
+	 * comment-addComment
 	 * 提交评论/回复
 	 */
 	public void addComment() {

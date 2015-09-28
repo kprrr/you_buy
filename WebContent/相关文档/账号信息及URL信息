@@ -1,3 +1,7 @@
 yuezhankeji@126.com
 
 后台=http://127.0.0.1/login.jsp
+
+
+插入活动=http://127.0.0.1/activity-addActivity_test
+活动评论=http://127.0.0.1/pages/front/homeComment.jsp
