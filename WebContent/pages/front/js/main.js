@@ -161,10 +161,29 @@ game.msgdialog=function(){
     var oDiv = $(".msg-cont");
 	$(".msg-bnt").click(function(){
 	    var msgText = $("#msg-text").val();
-	    var msgCont = "<div class='r msg-fr'><div class='r'><img src='images/play_banner.png'/></div><div class='text r'><span class='r'>" + msgText + "</span><b class='r'>2015-09-10 21:20</b></div></div>";
+	    var msgCont = "<div class='r msg-fr'><div class='r'><img src='/upload/"+$("#me_photo").val()+"'/></div><div class='text r'><span class='r'>" + msgText + "</span><b class='r'>2015-09-10 21:20</b></div></div>";
 	    if (msgText != '') {
-	        oDiv.append(msgCont);
-	        $("#msg-text").val("");
+	    	var msg ={};
+	    	msg.content = msgText;
+	    	msg.receiver_id = $("#id").val();
+	    	msg.receiver_photo = $("#photo").val();
+	    	$.ajax({
+	            type: "POST", 
+	            url:" message-addMsg", 
+	            dataType: "json", //服务器返回结果的数据格式，如Json，xml，html等
+	            data:msg,
+	            processdata: true, //True or False
+	            success: function (json) {
+	            	if(json.code == 1) {
+	            		oDiv.append(msgCont);
+	        	        $("#msg-text").val("");
+	            	} 
+	            }
+	    	 });
+	    	
+	    	
+	    	
+	        
 	    } else {
 	        $(".tip-box").fadeIn().text("消息不能为空！").fadeOut(2500);
 	    };
@@ -179,7 +198,7 @@ game.msgcom = function () {
         var aLi="<li><div class='reply-main clearfix'><div class='name l'><img src='images/play_banner.png'><p>我是明明</p></div><div class='cont l'><p class='user-msg clearfix'><span>" + msgText + "</span><a class='hf'  href='javascript:void(0);'>回复</a></p></div></div><div class='reply-input clearfix'><input type='text' /><a class='fs'  href='javascript:void(0);'>发送</a></div></li>";
         if (msgText != '') {
         	//======================
-        	$.post('comment-addComment',{"content":$("#content").val()},function(json){
+        	$.post('comment-addComment',{"content":$("#content").val(),"isreply":1},function(json){
      			if(json.code == 1){
      				 oDiv.append(aLi);
      	            $(".com-text textarea").val("");
