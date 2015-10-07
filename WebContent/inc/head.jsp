@@ -21,7 +21,7 @@
 <script src="${ctx }js/sys/init.js"></script>
 <script src="${ctx }js/sys/ajaxfileupload.js"></script>
 <script src="${ctx }js/sys/upload.js"></script>
-<script src="/js/url.js"></script>
+<script src="${ctx }/js/url.js"></script>
 
 
 

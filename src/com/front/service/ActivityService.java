@@ -1,6 +1,7 @@
 package com.front.service;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,10 +22,10 @@ import com.base.PageList;
 import com.base.ServiceDao;
 import com.front.model.activity;
 import com.front.model.collects;
+import com.front.model.message;
 import com.front.model.signup;
 import com.front.model.wxuser;
 import com.juxinbox.model.AccessToken;
-import com.juxinbox.sdk.JuxinBoxSdk;
 import com.juxinbox.sdk.WeiXinSdk;
 import com.sys.model.site;
 import com.util.Distance;
@@ -42,6 +43,15 @@ public class ActivityService extends BaseService{
 	@Autowired
 	@Resource
 	public Property property;
+	
+	@Autowired
+	@Resource
+	public MessageService messageService;
+	
+	@Autowired
+	@Resource
+	public UserService userService;
+	
 	public void tran(HttpServletRequest request,HttpServletResponse response,BaseAction action,String redirectUrl,Map<String, Object> map) {
 		property.setRealPath(action.getFilePath());
 		WeiXinSdk sdk=new WeiXinSdk(request, response, Common.AppId,Common.AppSecret);
@@ -129,14 +139,15 @@ public class ActivityService extends BaseService{
 	public PageList queryAll(activity activity,wxuser wxuser) {
 		// TODO Auto-generated method stub
 		try {
-			PageList pageList = serviceDao.getList(activity, activity.sqlSelectWithWxuser(activity), String.valueOf(activity.getPageSize()), String.valueOf(activity.getPageNum()));
+			PageList pageList = serviceDao.getList(activity, "sqlSelectWithWxuser", activity.getPageSize()==0?"10":String.valueOf(activity.getPageSize()),activity.getPageNum()==null?"1":String.valueOf(activity.getPageNum()));
 			List<activity> list = pageList.getList();
 			for(int i = 0;i<list.size();i++) {
 				activity a = list.get(i);
+				//System.out.println(wxuser.getWxuser_longitude()+";"+wxuser.getWxuser_latitude()+";"+a.getActivity_longitude()+";"+a.getAcitivity_latitude());
 				a.setDistance(Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
 					Double.valueOf(wxuser.getWxuser_latitude()),
-					Double.valueOf(activity.getActivity_longitude()),
-					Double.valueOf(activity.getAcitivity_latitude())));
+					Double.valueOf(a.getActivity_longitude()),
+					Double.valueOf(a.getAcitivity_latitude())));
 				int timeFlag = TimeUtil.compareToCurrent(a.getStarttime());
 				if(timeFlag == 1) { //未开始
 					a.setActivity_status(Constant.TO_BE_START);
@@ -194,7 +205,10 @@ public class ActivityService extends BaseService{
 
 	public String signUpActivity(activity activity, wxuser wxuser) {
 		// TODO Auto-generated method stub
-		activity = (activity) serviceDao.getList(activity, activity.sqlSelect(activity)).get(0);
+		activity = (activity) serviceDao.getList(activity, sqlSelectName).get(0);
+		//更新报名人数
+		activity.setSigned_num(activity.getSigned_num()+1);
+		//插入报名
 		signup mySign = new signup();
 		mySign.setId(JdbcDao.createKey());
 		mySign.setUser_id(wxuser.getId());
@@ -209,10 +223,27 @@ public class ActivityService extends BaseService{
 		mySign.setActivity_starttime(activity.getStarttime());
 		mySign.setSignup_num(activity.getSigned_num());
 		mySign.setIsdelete(1);
-		
+		//插入消息
+		message msg = new message();
+		msg.setId(serviceDao.createKey());
+		msg.setSender_id(wxuser.getId());
+		msg.setSender_photo(wxuser.getPhoto());
+		msg.setSex(wxuser.getSex());
+		msg.setSender_nickname(wxuser.getNickname());
+		msg.setReceiver_id(activity.getCreate_userid());
+		msg.setReceiver_photo(activity.getPhoto());
+		msg.setIsread(Constant.NOT_READ);
+		msg.setContent(wxuser.getNickname()+"已报名了您发布的"+activity.getActivity_name()+"活动");
+		msg.setIsdelete(1);
 		try {
-			String mess = serviceDao.addObject(mySign, mySign.sqlInsert());
-			return mess;
+				sqlMap = new HashMap<Object, String>();
+				sqlMap.clear();
+				sqlMap.put(mySign, mySign.sqlInsert());
+				sqlMap.put(activity, activity.sqlUpdate(activity));
+				sqlMap.put(msg, msg.sqlInsert());
+				String mess = this.executeSqlMap(serviceDao, sqlMap);
+				return mess;
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -220,11 +251,40 @@ public class ActivityService extends BaseService{
 		return null;
 	}
 
+	public List<signup> querySignsByActivityAndWxuserId(activity activity,wxuser wxuser) {
+		signup mySign = new signup();
+		mySign.setActivity_id(activity.getId());
+		mySign.setUser_id(wxuser.getId());
+		List<signup> list = serviceDao.getList(mySign, "sqlSelectByActivityId");
+		return list;
+	}
+	
 	public List<signup> querySigns(wxuser wxuser) {
 		// TODO Auto-generated method stub
 		signup mySign = new signup();
 		mySign.setUser_id(wxuser.getId());
-		List<signup> list = serviceDao.getList(mySign, mySign.sqlSelect(mySign));
+		List<signup> list = serviceDao.getList(mySign, sqlSelectName);
+		for(int i = 0;i<list.size();i++) {
+			signup a = list.get(i);
+			//System.out.println(wxuser.getWxuser_longitude()+";"+wxuser.getWxuser_latitude()+";"+a.getActivity_longitude()+";"+a.getAcitivity_latitude());
+			a.setDistance(a.getDistance());
+			int timeFlag = TimeUtil.compareToCurrent(a.getActivity_starttime());
+			if(timeFlag == 1) { //未开始
+				a.setActivity_status(Constant.TO_BE_START);
+			} else if(timeFlag == 0) {//进行中
+				a.setActivity_status(Constant.DOING);
+			}else if(timeFlag == 2) {//已结束
+				a.setActivity_status(Constant.END_UP);
+			}
+		}
+		Collections.sort(list);
 		return list;
+	}
+
+	public activity getActivity(activity activity) {
+		// TODO Auto-generated method stub
+		activity = (com.front.model.activity) serviceDao.getList(activity, sqlSelectName).get(0);
+		
+		return activity;
 	}
 }

@@ -26,8 +26,15 @@ public class site implements Serializable{
 	private String region_name;
 	
 	private double distance;
+	private String pageNum;
 	
 
+	public String getPageNum() {
+		return pageNum;
+	}
+	public void setPageNum(String pageNum) {
+		this.pageNum = pageNum;
+	}
 	public double getDistance() {
 		return distance;
 	}

@@ -36,12 +36,13 @@
 		<div class="user-info">
 			<div class="name clearfix">
 				<div class="l"><img src="images/use-photo.png" /></div>
-				<h3 class="l"><p><i class="sex-m"></i>看看名字可以起多长一起打台球喽一起打台球喽一起打台球喽</p><span>一起打台球喽一起打台球喽一起打台球喽一起打台球喽一起打台球喽一起打台球喽!!!</span></h3>
+				<h3 class="l"><p><i class="sex-m"></i>${activity.nickname }</p><span>${activity.activity_name }</span></h3>
 			</div>
-			<div class="mobile clearfix"><b class="l">电话:</b><p class="l">1383838738</p></div>
+			<div class="mobile clearfix"><b class="l">电话:</b><p class="l">${activity.tel }</p></div>
 			<div class="mobile loaction clearfix">
 				<b class="l">地址:</b>
-				<p class="l"><span>Bin时尚主题会</span><em>中山南路87号大厦(新街口附近)一起打台球喽一起打台球喽一起打台球喽</em><a href="_loactNav.html"></a><p>
+				<input type = "hidden" id="distance" value="${activity.distance }" />
+				<p class="l"><span>${activity.site_name }</span><em>${activity.site_address }</em><a href="_loactNav.html"></a><p>
 			</div>
 		</div>
 		<div class="com-info">

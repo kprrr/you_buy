@@ -21,8 +21,6 @@ public class comments implements Serializable{
 	private String createtime;//
 	private Integer isdelete;//
 	
-	public static Integer IS_REPLY = 0;
-	public static Integer IS_NOT_REPLY = 1;
 	
 
 	public String getId() {
@@ -98,7 +96,7 @@ public class comments implements Serializable{
 		sql.append("insert into comments ");
 		sql.append("(id, activity_id, commentator_id, commentator_name, commentator_photo, content, isreply, recevier_id, receiver_name, createtime, isdelete) ");
 		sql.append("values ");
-		sql.append("(:id, :activity_id, :commentator_id, :commentator_name, :commentator_photo, :content, :isreply, :recevier_id, :receiver_name, :createtime, :isdelete) ");
+		sql.append("(:id, :activity_id, :commentator_id, :commentator_name, :commentator_photo, :content, :isreply, :recevier_id, :receiver_name, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	

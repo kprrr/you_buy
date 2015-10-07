@@ -38,14 +38,25 @@ public class activity implements Serializable,Comparable<activity>{
 	private String nickname;//
 	private String photo;//
 	private Integer sex;//
+	private String tel;
 	private Double distance;
-	private int pageNum;
+	private String pageNum;
 	private int pageSize;
 	
 	
 	@Override
 	public int compareTo(activity arg0) {
 		return this.getDistance().compareTo(arg0.getDistance());
+	}
+
+
+	public String getTel() {
+		return tel;
+	}
+
+
+	public void setTel(String tel) {
+		this.tel = tel;
 	}
 
 
@@ -89,12 +100,17 @@ public class activity implements Serializable,Comparable<activity>{
 	public void setIsotherpay(Integer isotherpay) {
 		this.isotherpay = isotherpay;
 	}
-	public int getPageNum() {
+	
+	public String getPageNum() {
 		return pageNum;
 	}
-	public void setPageNum(int pageNum) {
+
+
+	public void setPageNum(String pageNum) {
 		this.pageNum = pageNum;
 	}
+
+
 	public int getPageSize() {
 		return pageSize;
 	}
@@ -242,10 +258,12 @@ public class activity implements Serializable,Comparable<activity>{
 	//生成查询语句
 	public String sqlSelect(activity activity){
 		StringBuffer sql = new StringBuffer();
-		sql.append("select id, activity_type, activity_name, activity_longitude, acitivity_latitude, site_city, site_name, site_address, starttime, lasttime, deadline, limit_num, create_userid, activity_status, shared_times, createtime, isdelete ");
+		sql.append("select id, activity_type, isotherpay,activity_name, activity_longitude, acitivity_latitude, site_city, site_name, site_address, starttime, lasttime, deadline,signed_num, limit_num, create_userid, activity_status, shared_times, createtime, isdelete ");
 		sql.append("from activity where 1 = 1 ");
 		
-		
+		if(activity.getId()!=null&&activity.getId().length()>0){
+			sql.append(" and id = :id");
+		}
 		return sql.toString();
 	}
 	
@@ -291,6 +309,9 @@ public class activity implements Serializable,Comparable<activity>{
 		if(activity.getLasttime()!=null){
 			sql.append(",lasttime = :lasttime");
 		}
+		if(activity.getSigned_num()!=null){
+			sql.append(",signed_num = :signed_num");
+		}
 		if(activity.getDeadline()!=null&&activity.getDeadline().length()>0){
 			sql.append(",deadline = :deadline");
 		}
@@ -312,7 +333,7 @@ public class activity implements Serializable,Comparable<activity>{
 		if(activity.getIsdelete()!=null){
 			sql.append(",isdelete = :isdelete");
 		}
-		
+		sql.append(" where id=:id");
 		return sql.toString();
 	}
 	//生成修改语句

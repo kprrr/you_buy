@@ -74,9 +74,9 @@ public class ServiceDao extends SimpleJdbcDaoSupport {
 		try {
 			temp = (List<T>) templateTransactionTemplate.execute(new TransactionCallback() {
 				public Object doInTransaction(TransactionStatus arg0) {
-					//logger.info(FormatStyle.BASIC.getFormatter().format(sql));
+					logger.info(FormatStyle.BASIC.getFormatter().format(sql));
 					List<T> temp = (List<T>) getSimpleJdbcTemplate().query(sql, getItems(o.getClass()), setItems(o));
-					//logger.info("当前查询到:" + temp.size() + "条");
+					logger.info("当前查询到:" + temp.size() + "条");
 
 					return temp;
 				}

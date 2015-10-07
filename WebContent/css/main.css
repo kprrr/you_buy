@@ -50,7 +50,7 @@ label {
 }
 
 .loginbgbox {
-    background: url(/images/bannerbg.jpg) #c3e4fd center top no-repeat;
+    background: url(/you_buy/images/bannerbg.jpg) #c3e4fd center top no-repeat;
     height: 526px;
 }
 
@@ -67,7 +67,7 @@ label {
 .userbox {
     width: 362px;
     height: 326px;
-    background: url(/images/boxbottom.png) bottom center no-repeat;
+    background: url(/you_buy/images/boxbottom.png) bottom center no-repeat;
     float: right;
     margin-top: 45px;
 }
@@ -147,7 +147,7 @@ label {
 }
 
 .loginFormBtn .loginBtn {
-    background: url(/images/button.jpg) no-repeat;
+    background: url(/you_buy/images/button.jpg) no-repeat;
     color: #fff;
     font-size: 0px;
     height: 41px;
@@ -184,7 +184,7 @@ label {
 }
 
 .btn-ui {
-    background: url(/images/btn.png) no-repeat;
+    background: url/you_buy(/images/btn.png) no-repeat;
     position: 0 0;
     display: block;
     font-size: 16px;
@@ -231,7 +231,7 @@ label {
 .head1 {
     height: 95px;
     width: 980px;
-    background: url(/images/logo3.png) no-repeat;
+    background: url(/you_buy/images/logo3.png) no-repeat;
     position: relative;
     margin: 0 auto;
 }
@@ -272,7 +272,7 @@ label {
 
 #menu {
     width: 222px;
-    background: url(/images/navbglist.jpg) #f5f5f5 no-repeat center bottom;
+    background: url(/you_buy/images/navbglist.jpg) #f5f5f5 no-repeat center bottom;
     padding-bottom: 140px;
 }
 
@@ -508,7 +508,7 @@ label {
 }
 
 .title {
-    background: url(/images/title-bg.jpg) no-repeat;
+    background: url(/you_buy/images/title-bg.jpg) no-repeat;
     color: #fff;
     height: 25px;
     text-indent: 40px;

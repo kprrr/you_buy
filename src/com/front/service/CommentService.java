@@ -35,16 +35,17 @@ public class CommentService extends BaseService{
 	@Resource
 	public ServiceDao serviceDao;
 
-	public String addComment(comments comment, wxuser wxuser) {
+	public String addComment(comments comment, activity activity,wxuser wxuser) {
 		// TODO Auto-generated method stub
 		comment.setId(JdbcDao.createKey());
+		comment.setActivity_id(activity.getId());
 		comment.setIsdelete(1);
-		if(comment.getIsreply() == comments.IS_REPLY) {
+		if(comment.getIsreply() == Constant.IS_REPLY) {
 			comment.setCommentator_id(wxuser.getId());
 			comment.setCommentator_name(wxuser.getNickname());
 			comment.setCommentator_photo(wxuser.getPhoto());
 			
-		}else if(comment.getIsreply() == comments.IS_NOT_REPLY){
+		}else if(comment.getIsreply() == Constant.IS_NOT_REPLY){
 			comment.setCommentator_id(wxuser.getId());
 			comment.setCommentator_name(wxuser.getNickname());
 			comment.setCommentator_photo(wxuser.getPhoto());
@@ -63,7 +64,7 @@ public class CommentService extends BaseService{
 
 	public List<comments> queryComments(comments comment, wxuser wxuser) {
 		// TODO Auto-generated method stub
-		List<comments> list = serviceDao.getList(comment, comment.sqlSelect(comment));
+		List<comments> list = serviceDao.getList(comment, sqlSelectName);
 		return list;
 	}
 	

@@ -4,17 +4,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.base.BaseAction;
+import com.base.ServiceDao;
+import com.front.model.wxuser;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sys.dao.RegionDao;
 import com.sys.dao.SiteDao;
 import com.sys.model.region;
 import com.sys.model.site;
+import com.util.Distance;
 
 @Component("siteAction")
 @Scope("prototype")
@@ -27,6 +29,10 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
     @Autowired
     @Resource
     public RegionDao regionDao;
+    
+    @Autowired
+	@Resource
+	public ServiceDao serviceDao;
     
     
     site site = new site();
@@ -76,6 +82,27 @@ public class SiteAction extends BaseAction implements ModelDriven<site> {
             outJson(list);
         }
     
+    
+  //site-queryAll
+    public void queryAll() {
+    	try {
+//			PageList pageList = serviceDao.getList(site, sqlSelectName, "10",site.getPageNum()==null?"1":String.valueOf(site.getPageNum()));
+//			List<site> list = pageList.getList();
+    		wxuser wxuser = (com.front.model.wxuser) session.get("wxuser");
+			List<site> list = serviceDao.getList(site, sqlSelectName);
+			for(int i=0;i<list.size();i++) {
+				site s = list.get(i);
+				s.setDistance(Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
+						Double.valueOf(wxuser.getWxuser_latitude()),
+						Double.valueOf(s.getLongitude()),
+						Double.valueOf(s.getLatitude())));
+			}
+			outJson(list);
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     
     
     public site getModel() {

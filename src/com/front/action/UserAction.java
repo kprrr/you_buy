@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 import com.base.BaseAction;
 import com.base.ServiceDao;
+import com.front.model.activity;
 import com.front.model.message;
 import com.front.model.wxuser;
 import com.front.service.UserService;
@@ -35,6 +36,19 @@ public class UserAction extends BaseAction implements ModelDriven<wxuser>{
 	public ServiceDao serviceDao;
 	
 
+	
+	/**
+	 * user-toEdit
+	 * @return
+	 */
+	public String toEdit(){
+		wxuser = (com.front.model.wxuser) session.get("wxuser");
+		this.setAttribute("wxuser", wxuser);
+		String url = "";
+		 url = "/pages/front/myEdit.jsp";
+		 this.setForwardJsp(url); // 到首页
+		 return FORWARD;
+	}
 	
 	/**
 	 * 

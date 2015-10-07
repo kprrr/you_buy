@@ -22,10 +22,10 @@
 
 			<div class="top-span">
 				<span> <img style="vertical-align: middle;"
-						src="/images/male.png" /> <span style="vertical-align: middle;">${1==1?"管理员":"普通用户"}(账号:管理员)</span>
+						src="/you_buy/images/male.png" /> <span style="vertical-align: middle;">${1==1?"管理员":"普通用户"}(账号:管理员)</span>
 				</span>
 				<span onclick=""> <img style="vertical-align: middle;"
-						src="/images/action_delete.png" /> <span
+						src="/you_buy/images/action_delete.png" /> <span
 					style="vertical-align: middle;" id="logOut">退出登录</span> </span>
 			</div>
 		</div>
@@ -39,8 +39,8 @@
      </div>--%>
 			<div>
 			<div class="nav-item menuItem"
-					onclick="addMenuTab('场馆管理','/pages/user/sites/list.jsp')">
-					<img src="/images/miji.png"></img>
+					onclick="addMenuTab('场馆管理','/you_buy/pages/user/sites/list.jsp')">
+					<img src="/you_buy/images/miji.png"></img>
 					<span>场馆管理</span>
 				</div>
 <!-- 				<div class="nav-item menuItem" -->

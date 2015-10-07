@@ -42,7 +42,7 @@ public class UserService extends BaseService{
 	}
 	public wxuser queryWxuser( wxuser wxuser) {
 		// TODO Auto-generated method stub
-		List<wxuser> list = serviceDao.getList(wxuser, wxuser.sqlSelect(wxuser));
+		List<wxuser> list = serviceDao.getList(wxuser, sqlSelectName);
 		if(list != null && list.size() == 1){
 			return list.get(0);
 		}

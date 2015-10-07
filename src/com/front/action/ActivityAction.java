@@ -18,6 +18,7 @@ import com.front.model.collects;
 import com.front.model.signup;
 import com.front.model.wxuser;
 import com.front.service.ActivityService;
+import com.front.service.UserService;
 import com.opensymphony.xwork2.ModelDriven;
 import com.sys.model.site;
 import com.util.Distance;
@@ -41,32 +42,27 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 	@Resource
 	public ServiceDao serviceDao;
 	
-//	@Autowired
-//	@Resource
-//	public MallService mallService;
+	@Autowired
+	@Resource
+	public UserService userService;
 	
-//	
-//	/**
-//	 * mall-index
-//	 * @return
-//	 */
-//	public String index() {
-//		zh_mall_wxuser wxuser = new zh_mall_wxuser();
-//		wxuser.setId("0001b3f459cc086099a6fc4e268be9d3");
-//		try {
-//			List<zh_mall_wxuser> userList = serviceDao.getList(wxuser, sqlSelectName, null, null).getList();
-//			wxuser = userList.get(0);
-//			session.put("wxuser", wxuser);
-////			List<WorkingSpace> obList =  Common.getWorkingSpaceList();
-////			session.put("wsList", obList);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		
-//		  String url = "/zh_mall_index.jsp";
-//	         this.setForwardJsp(url); // 到抽奖页面
-//	 		return FORWARD;
-//	}
+	
+	
+	/**
+	 * 测试首页进入方法
+	 * activity-index
+	 * @return
+	 */
+	public String index() {
+		wxuser wxuser = new wxuser();
+		wxuser.setId("4");
+		wxuser = (wxuser) serviceDao.getList(wxuser, sqlSelectName).get(0);
+		session.put("wxuser", wxuser);
+		
+		  String url = "/pages/front/index_home.jsp";
+	         this.setForwardJsp(url); // 到抽奖页面
+	 		return FORWARD;
+	}
 //
 	/**
 	 *活动入口
@@ -136,20 +132,83 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		 return FORWARD;
 	}
 	
+	
+	/**
+	 * activity-queryAll
+	 */
 	public void queryAll() {
-		wxuser wxuser = (wxuser) session.get("wxuser");
+		wxuser  wxuser = (wxuser) session.get("wxuser");
+		System.out.println("当前页:"+activity.getPageNum());
+		System.out.println("当前页:"+getRequest().getParameter("pageNum"));
 		PageList list = activityService.queryAll(activity,wxuser);
 		this.outJson(list);
 	}	
 	
+	
+	/**
+	 * 到报名详情页面
+	 * activity-toDetail
+	 * @return
+	 */
+	public String toDetail(){
+		String url = "";
+		//System.out.println("toDeetal");
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		activity = activityService.getActivity(activity);
+		wxuser createUser = new wxuser();
+		createUser.setId(activity.getCreate_userid());
+		createUser = userService.queryWxuser(createUser);
+		this.setAttribute("activity", activity);
+		activity.setNickname(createUser.getNickname());
+		activity.setPhoto(createUser.getPhoto());
+		activity.setSex(createUser.getSex());
+		activity.setTel(createUser.getTel());
+		session.put("activity", activity);
+		this.setAttribute("createUser", createUser);
+		 url = "/pages/front/homeEnroll.jsp";
+		 this.setForwardJsp(url); 
+		 return FORWARD;
+	}
+	
+	
 	/**
 	 * 到发起约战页，筛选出最近的场馆信息
+	 * activity-toAdd
 	 */
-	public void toAdd() {
+	public String toAdd() {
 		wxuser wxuser = (wxuser) session.get("wxuser");
 		site sites = new site();
 		site nearestSite = new site();
-		List<site> sitesList = serviceDao.getList(sites, sites.sqlSelect(sites));
+		List<site> sitesList = serviceDao.getList(sites, sqlSelectName);
+		for(int i=0;i<sitesList.size();i++) {
+			site site = sitesList.get(i);
+			site.setDistance(Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
+					Double.valueOf(wxuser.getWxuser_latitude()),
+					Double.valueOf(site.getLongitude()),
+					Double.valueOf(site.getLatitude())));
+			if(nearestSite.getId() != null) {
+				if(site.getDistance() <=nearestSite.getDistance()) {
+					nearestSite = site;
+				}
+			}else {
+				nearestSite = site;
+			}
+		}
+		this.setAttribute("nearestSite", nearestSite);
+		String url = "";
+		 url = "/pages/front/homeFillin.jsp";
+		 this.setForwardJsp(url); 
+		 return FORWARD;
+//		this.outJson(nearestSite);
+	}
+
+	/**
+	 * activity-getSiteByBaidu
+	 */
+	public void getSiteByBaidu(){
+		wxuser wxuser = (wxuser) session.get("wxuser");
+		site nearestSite = new site();
+		List<site> sitesList = serviceDao.getList(nearestSite, sqlSelectName);
 		for(int i=0;i<sitesList.size();i++) {
 			site site = sitesList.get(i);
 			site.setDistance(Distance.GetDistance(Double.valueOf(wxuser.getWxuser_longitude()), 
@@ -166,7 +225,10 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 		}
 		this.outJson(nearestSite);
 	}
-
+	
+	
+	
+	
 	/**
 	 * activity-addActivity
 	 */
@@ -188,20 +250,20 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 	public void addActivity_test() {
 		//32.1586610000,119.4281740000
 		wxuser wxuser = new wxuser();
-		wxuser = (wxuser) serviceDao.getList(wxuser, sqlSelectName).get(0);
+		wxuser = (wxuser) serviceDao.getList(wxuser, sqlSelectName).get(1);
 		session.put("wxuser", wxuser);
-		wxuser = (wxuser) session.get("wxuser");
-		site site = new site();
-		site = (site) serviceDao.getList(site, sqlSelectName).get(0);
-		activity.setSite(site);
-		//32.1607390000,119.4215630000
-		String mess = "";
-		if(site.getId() != null && !"".equals(site.getId())) {
-			mess = activityService.addActivity(site,activity,wxuser);
-		}else {
-			mess = activityService.addActivity(activity,wxuser);
-		}
-		this.outJson(mess);
+//		wxuser = (wxuser) session.get("wxuser");
+//		site site = new site();
+//		site = (site) serviceDao.getList(site, sqlSelectName).get(0);
+//		activity.setSite(site);
+//		//32.1607390000,119.4215630000
+//		String mess = "";
+//		if(site.getId() != null && !"".equals(site.getId())) {
+//			mess = activityService.addActivity(site,activity,wxuser);
+//		}else {
+//			mess = activityService.addActivity(activity,wxuser);
+//		}
+		this.outJson(this.codeMess(1, "11"));
 	}
 	
 	
@@ -239,15 +301,29 @@ public class ActivityAction extends BaseAction implements ModelDriven<activity>{
 	}
 	
 	/**
-	 * 参与活动
+	 * activity-signUp
+	 * @return 我参与的活动
+	 * 我要报名，参与活动
 	 */
-	public void signUp() {
+	public String signUp() {
 		wxuser wxuser = (wxuser) session.get("wxuser");
-		String mess = activityService.signUpActivity(activity,wxuser);
-		this.outJson(mess);
+		activity = (com.front.model.activity) session.get("activity");
+		String mess = "";
+		List<signup> list = activityService.querySignsByActivityAndWxuserId(activity, wxuser);
+		if(list != null && list.size()>0) {
+			mess = this.codeMess(0, "已经报过名");
+		}else {
+			mess = activityService.signUpActivity(activity,wxuser);
+		}
+		
+		String url = "";
+		 url = "/pages/front/homeFillin.jsp";
+		 this.setForwardJsp(url); 
+		 return FORWARD;
 	}	
 	
 	/**
+	 * activity-querySigns
 	 * 我参与的活动查询
 	 */
 	public void querySigns() {

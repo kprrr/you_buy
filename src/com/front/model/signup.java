@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @author lxj
  *
  */
-public class signup implements Serializable{
+public class signup implements Serializable,Comparable<signup>{
 
 	private String id;//
 	private String activity_id;//
@@ -20,9 +20,42 @@ public class signup implements Serializable{
 	private Integer signup_num;//
 	private String createtime;//
 	private Integer isdelete;//
-
+	
+	private Integer activity_status;//活动当前状态 0-未开始 1-进行中 2-已结束
+	private String nickname;//
+	private String photo;//
+	private Integer sex;//
 	
 	
+	@Override
+	public int compareTo(signup arg0) {
+		return this.getDistance().compareTo(arg0.getDistance());
+	}
+	
+	public Integer getActivity_status() {
+		return activity_status;
+	}
+	public void setActivity_status(Integer activity_status) {
+		this.activity_status = activity_status;
+	}
+	public String getNickname() {
+		return nickname;
+	}
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+	public String getPhoto() {
+		return photo;
+	}
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
+	public Integer getSex() {
+		return sex;
+	}
+	public void setSex(Integer sex) {
+		this.sex = sex;
+	}
 	public Integer getIsotherpay() {
 		return isotherpay;
 	}
@@ -95,8 +128,8 @@ public class signup implements Serializable{
 		StringBuffer sql = new StringBuffer();
 		sql.append("insert into signup ");
 		sql.append("(id, activity_id, user_id,isotherpay, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete) ");
-		sql.append("values ");
-		sql.append("(:id, :activity_id, :user_id, :isotherpay,:site_name, :site_address, :distance, :activity_starttime, :signup_num, CURRENT_TIMESTAMP, :isdelete) ");
+		sql.append(" values ");
+		sql.append("(:id,:activity_id, :user_id, :isotherpay,:site_name, :site_address, :distance, :activity_starttime, :signup_num, CURRENT_TIMESTAMP, :isdelete) ");
 		return sql.toString();
 	}
 	
@@ -116,6 +149,15 @@ public class signup implements Serializable{
 		
 		return sql.toString();
 	}
+	
+	//生成查询语句
+		public String sqlSelectByActivityId(signup signup){
+			StringBuffer sql = new StringBuffer();
+			sql.append("select id, activity_id, user_id, site_name, site_address, distance, activity_starttime, signup_num, createtime, isdelete ");
+			sql.append("from signup where 1 = 1 and user_id=:user_id and activity_id=:activity_id");
+			
+			return sql.toString();
+		}
 	
 	//生成修改语句
 	public String sqlUpdate(signup signup){

@@ -1,6 +1,12 @@
 eclipse.preferences.version=1
 encoding//WebContent/css/sys/allExecute.css=UTF-8
 encoding//WebContent/pages/front/homeComment.jsp=UTF-8
+encoding//WebContent/pages/front/homeEnroll.jsp=UTF-8
+encoding//WebContent/pages/front/homeFillin.jsp=UTF-8
+encoding//WebContent/pages/front/index_home.jsp=UTF-8
+encoding//WebContent/pages/front/index_msg.jsp=UTF-8
+encoding//WebContent/pages/front/index_site.jsp=UTF-8
+encoding//WebContent/pages/front/myEdit.jsp=UTF-8
 encoding//src/com/base/BaseAction.java=UTF-8
 encoding//src/com/base/BaseService.java=UTF-8
 encoding//src/com/front/action/ActivityAction.java=UTF-8

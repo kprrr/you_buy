@@ -7,5 +7,26 @@ yuezhankeji@126.com
 后台=http://127.0.0.1/login.jsp
 
 
-插入活动=http://127.0.0.1/activity-addActivity_test
+插入活动测试=http://127.0.0.1/activity-addActivity_test
+插入活动=http://127.0.0.1/pages/front/homeFillin.jsp
 活动评论=http://127.0.0.1/pages/front/homeComment.jsp
+到活动详情=http://127.0.0.1/you_buy/activity-toDetail?id=825831efcb035ed03beb4e671e102d62
+消息对话页=http://127.0.0.1/pages/front/message-index?sender_id=3
+
+活动列表=http://127.0.0.1/activity-queryAll
+评论列表=http://127.0.0.1/comment-queryComments
+到发起活动页面=http://127.0.0.1/you_buy/pages/front/activity-toAdd
+
+
+
+
+1.<i class="sex-m">这是性别男图标，那性别女呢 1
+2.消息回复事件，点击回复，获取到昵称，id,组装给我 1
+3.myEdit，性别一栏用radio或者select  
+4.myEdit,请写ajax，data数据我来拼，还有图片上传事件 1
+5.发送消息，原先是写死的，需要取当前时间 1
+6.首页数据载入有问题，需要滚动才会触发 1
+7.发起约战渲染问题，用同步做，有值时同步可以做，没有值呢？ 1
+8.报名页面，如果是谁输谁买单的类型，则显示checkbox框，并且做选择验证，如果不是，则不显示 
+
+
